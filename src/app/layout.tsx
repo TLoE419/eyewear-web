@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { CartProvider } from "@/context/cartContext";
+import ScrollToTop from "./components/scrollToTop";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -34,6 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <ScrollToTop />
         <CartProvider>{children}</CartProvider>
       </body>
     </html>
