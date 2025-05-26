@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { CartProvider } from "@/context/cartContext";
 import ScrollToTop from "./components/scrollToTop";
-import { Inter } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
+import Footer from "./components/footer";
 import "./globals.css";
 
 /* const geistSans = Geist({
@@ -11,6 +12,10 @@ import "./globals.css";
 }); */
 
 const inter = Inter({ subsets: ["latin"] });
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair-display",
+});
 
 /* const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -34,9 +39,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} ${playfair.variable}`}>
         <ScrollToTop />
-        <CartProvider>{children}</CartProvider>
+        <CartProvider>
+          {children}
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );
