@@ -1,0 +1,32 @@
+[
+  {
+    "id": "1",
+    "name": "Ray-Ban 經典款",
+    "brand": "Ray-Ban",
+    "price": 6800,
+    "category": "太陽眼鏡",
+    "image": "/Ray.Ban/RayBan_1.jpg",
+    "description": "經典 Ray-Ban 太陽眼鏡，時尚百搭。",
+    "inStock": true
+  },
+  {
+    "id": "2",
+    "name": "LINDBERG 輕量鏡框",
+    "brand": "LINDBERG",
+    "price": 15800,
+    "category": "光學眼鏡",
+    "image": "/LINDBERG/Lindberg_1.jpg",
+    "description": "極致輕量設計，舒適配戴。",
+    "inStock": true
+  },
+  {
+    "id": "3",
+    "name": "999.9 高彈性鏡框",
+    "brand": "9999",
+    "price": 12800,
+    "category": "光學眼鏡",
+    "image": "/999.9/999.9_1.jpg",
+    "description": "高彈性材質，耐用不易變形。",
+    "inStock": false
+  }
+] 

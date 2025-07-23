@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { db } from "@/lib/firebase";
-import { doc, getDoc } from "firebase/firestore";
 import { useCart } from "@/context/cartContext";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,10 +15,39 @@ export default function ProductDetailPage() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const docRef = doc(db, "products", id as string);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setProduct({ id: docSnap.id, ...docSnap.data() });
+        // 刪除以下兩行：
+        // const docRef = doc(db, "products", id as string);
+        // const docSnap = await getDoc(docRef);
+        // if (docSnap.exists()) {
+        //   setProduct({ id: docSnap.id, ...docSnap.data() });
+        // }
+        // 模擬產品資料
+        const mockProducts = [
+          {
+            id: "1",
+            name: "Example Product 1",
+            brand: "Brand A",
+            category: "Category X",
+            price: 1000,
+            image: "/images/product1.jpg",
+            description: "This is a description for Example Product 1.",
+            inStock: true,
+          },
+          {
+            id: "2",
+            name: "Example Product 2",
+            brand: "Brand B",
+            category: "Category Y",
+            price: 2000,
+            image: "/images/product2.jpg",
+            description: "This is a description for Example Product 2.",
+            inStock: false,
+          },
+        ];
+
+        const foundProduct = mockProducts.find((p) => p.id === id);
+        if (foundProduct) {
+          setProduct(foundProduct);
         }
       } catch (error) {
         console.error("Error fetching product:", error);

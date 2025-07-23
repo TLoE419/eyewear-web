@@ -5,10 +5,9 @@ import { useSearchParams } from "next/navigation";
 import { Slider } from "@/app/components/ui/slider";
 import { Checkbox } from "@/app/components/ui/checkbox";
 import { useCart } from "@/context/cartContext";
-import { db } from "@/lib/firebase";
-import { collection, getDocs } from "firebase/firestore";
 import Image from "next/image";
 import Link from "next/link";
+import productsData from "@/data/products.json";
 
 export type Product = {
   id: string;
@@ -48,16 +47,8 @@ export default function ProductsPage() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const snapshot = await getDocs(collection(db, "products"));
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as Product[];
-      setProducts(data);
-      setFilteredProducts(data);
-    };
-    fetchProducts();
+    setProducts(productsData as Product[]);
+    setFilteredProducts(productsData as Product[]);
   }, []);
 
   useEffect(() => {
