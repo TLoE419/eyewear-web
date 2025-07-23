@@ -13,15 +13,13 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const textColor = scrolled ? "rgb(136, 99, 64)" : "white";
-
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out transform ${
         scrolled ? "shadow-md translate-y-0" : "translate-y-0"
       }`}
       style={{
-        backgroundColor: scrolled ? "white" : "transparent",
+        backgroundColor: scrolled ? "rgb(38, 38, 38)" : "transparent",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -35,10 +33,10 @@ export default function Header() {
               className="flex flex-col items-center justify-center gap-1 text-white"
             >
               <img
-                src="/SiBao.png"
+                src="SiBao.png"
                 alt="SiBao"
                 className="object-contain"
-                style={{ width: "128px", height: "128px" }}
+                style={{ width: "128px", height: "248px" }}
               />
             </Link>
           </div>
@@ -47,9 +45,11 @@ export default function Header() {
         {/* 中間選單 */}
         <nav
           className="hidden md:flex gap-8 font-medium transition-colors duration-500 ease-in-out"
-          style={{ color: textColor }}
+          style={{
+            color: scrolled ? "rgb(227, 208, 165)" : "rgb(250, 243, 224)",
+          }}
         >
-          <Link href="/products">關於視寶</Link>
+          <Link href="/">關於視寶</Link>
           <Link href="/products">鏡片品牌</Link>
           <Link href="/products">鏡框品牌</Link>
           <Link href="/booking">聯絡眼鏡</Link>
@@ -58,16 +58,23 @@ export default function Header() {
         {/* 右側功能區 */}
         <div
           className="flex items-center gap-4 transition-colors duration-500 ease-in-out"
-          style={{ color: textColor }}
+          style={{ color: scrolled ? "rgb(227, 208, 165)" : "rgb(38, 38, 38)" }}
         >
           <div className="flex items-center gap-2 bg-white rounded-full px-3 py-1 shadow">
-            <Search size={16} />
+            <Search size={16} style={{ color: "rgb(227, 208, 165)" }} />
             <input
               type="text"
               placeholder="產品名稱"
               className="text-sm focus:outline-none w-24"
+              style={{
+                color: "rgb(38, 38, 38)",
+                border: "none",
+              }}
             />
-            <button className="text-white bg-[rgb(115,65,29)] rounded-full px-3 py-1 text-sm">
+            <button
+              className="bg-[rgb(115,65,29)] rounded-full px-3 py-1 text-sm"
+              style={{ color: "rgb(227, 208, 165)" }}
+            >
               搜尋
             </button>
           </div>

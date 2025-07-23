@@ -3,38 +3,49 @@ import EyeglassCard from "./EyeglassCard";
 
 const eyeglassBrands = [
   {
-    image: "/Logo/RayBan.jpg",
+    image: "/Ray.Ban/RayBan_1.jpg",
     href: "/products?brand=rayban",
+    brandName: "Ray-Ban",
   },
   {
-    image: "/Logo/LINDBERG.jpg",
+    image: "/LINDBERG/Lindberg_1.jpg",
     href: "/products?brand=lindberg",
+    brandName: "Lindberg",
   },
   {
-    image: "/Logo/9999.jpg",
+    image: "/999.9/999.9_1.jpg",
     href: "/products?brand=9999",
+    brandName: "999.9",
   },
   {
-    image: "/Logo/BVLGARI.jpg",
+    image: "/Test_1.jpg",
     href: "/products?brand=bulgari",
+    brandName: "Bvlgari",
   },
   {
-    image: "/Logo/GUCCI.jpg",
+    image: "/Test_2.jpg",
     href: "/products?brand=gucci",
+    brandName: "Gucci",
   },
   {
-    image: "/Logo/MONTBLANC.jpg",
+    image: "/Test_3.jpg",
     href: "/products?brand=montblanc",
+    brandName: "Montblanc",
   },
 ];
 
 export default function EyeglassCardGrid() {
   return (
-    <section className="w-full py-12 px-4 bg-gray-50">
+    <section className="w-full py-12 px-4 bg-[rgb(231,229,218)]">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-3 gap-6">
           {eyeglassBrands.map((brand, index) => (
-            <EyeglassCard key={index} image={brand.image} href={brand.href} />
+            <EyeglassCard
+              key={index}
+              image={brand.image}
+              href={brand.href}
+              brandName={brand.brandName}
+            />
           ))}
         </div>
       </div>

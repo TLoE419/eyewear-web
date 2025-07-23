@@ -56,10 +56,10 @@ export default function ImageSlider() {
               <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none" />
               <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-white text-center px-4 pointer-events-none">
                 <h1 className="text-4xl md:text-6xl lg:text-[120px] font-bold leading-none tracking-wide">
-                  LIGHT
+                  Sample
                 </h1>
                 <p className="text-lg md:text-xl tracking-[0.5em] mt-4">
-                  VISION
+                  Sample
                 </p>
               </div>
             </div>

@@ -5,6 +5,8 @@ import ScrollToTop from "./components/scrollToTop";
 import { Inter, Playfair_Display } from "next/font/google";
 import Footer from "./components/footer";
 import "./globals.css";
+import Header from "./components/header";
+import FloatingSocialButtons from "./components/FloatingSocialButtons";
 
 /* const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,9 +44,11 @@ export default function RootLayout({
       <body className={`${inter.className} ${playfair.variable}`}>
         <ScrollToTop />
         <CartProvider>
+          <Header />
           {children}
           <Footer />
         </CartProvider>
+        <FloatingSocialButtons />
       </body>
     </html>
   );
