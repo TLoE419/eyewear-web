@@ -6,7 +6,6 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { json } from "stream/consumers";
 
 export type CartItem = {
   id: string;

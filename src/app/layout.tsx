@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { CartProvider } from "@/context/cartContext";
 import ScrollToTop from "./components/scrollToTop";
 import { Inter, Playfair_Display } from "next/font/google";

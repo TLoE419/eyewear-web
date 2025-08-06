@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { ShoppingCart, Search, User } from "lucide-react";
+import { ShoppingCart, Search } from "lucide-react";
+import Image from "next/image";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -32,11 +33,12 @@ export default function Header() {
               href="/"
               className="flex flex-col items-center justify-center gap-1 text-white"
             >
-              <img
-                src="SiBao.png"
+              <Image
+                src="/SiBao.png"
                 alt="SiBao"
+                width={128}
+                height={248}
                 className="object-contain"
-                style={{ width: "128px", height: "248px" }}
               />
             </Link>
           </div>

@@ -1,71 +1,41 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import { useCart } from "@/context/cartContext";
-import Image from "next/image";
+import productsData from "@/data/products.json";
+import ProductDetailClient from "@/app/products/[id]/ProductDetailClient";
 import Link from "next/link";
 
-export default function ProductDetailPage() {
-  const { id } = useParams();
-  const [product, setProduct] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const { addToCart } = useCart();
+// 靜態生成參數
+export async function generateStaticParams() {
+  return productsData.map((product) => ({
+    id: product.id,
+  }));
+}
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        // 刪除以下兩行：
-        // const docRef = doc(db, "products", id as string);
-        // const docSnap = await getDoc(docRef);
-        // if (docSnap.exists()) {
-        //   setProduct({ id: docSnap.id, ...docSnap.data() });
-        // }
-        // 模擬產品資料
-        const mockProducts = [
-          {
-            id: "1",
-            name: "Example Product 1",
-            brand: "Brand A",
-            category: "Category X",
-            price: 1000,
-            image: "/images/product1.jpg",
-            description: "This is a description for Example Product 1.",
-            inStock: true,
-          },
-          {
-            id: "2",
-            name: "Example Product 2",
-            brand: "Brand B",
-            category: "Category Y",
-            price: 2000,
-            image: "/images/product2.jpg",
-            description: "This is a description for Example Product 2.",
-            inStock: false,
-          },
-        ];
+// 確保不跑動態
+export const dynamic = "error";
+export const revalidate = false;
 
-        const foundProduct = mockProducts.find((p) => p.id === id);
-        if (foundProduct) {
-          setProduct(foundProduct);
-        }
-      } catch (error) {
-        console.error("Error fetching product:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+interface Product {
+  id: string;
+  name: string;
+  brand: string;
+  category: string;
+  price: number;
+  image: string;
+  description: string;
+  inStock: boolean;
+}
 
-    fetchProduct();
-  }, [id]);
+interface PageProps {
+  params: Promise<{
+    id: string;
+  }>;
+}
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
+export default async function ProductDetailPage({ params }: PageProps) {
+  // 等待params Promise
+  const { id } = await params;
+
+  // 根據params.id找到對應的產品
+  const product = productsData.find((p) => p.id === id) as Product;
 
   if (!product) {
     return (
@@ -83,86 +53,5 @@ export default function ProductDetailPage() {
     );
   }
 
-  return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
-            {/* Product Image */}
-            <div className="relative aspect-square">
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                className="object-contain"
-                priority
-              />
-            </div>
-
-            {/* Product Info */}
-            <div className="space-y-6">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">
-                  {product.name}
-                </h1>
-                <p className="text-xl text-gray-600 mt-2">{product.brand}</p>
-              </div>
-
-              <div className="border-t border-b border-gray-200 py-6">
-                <p className="text-2xl font-bold text-rose-600">
-                  NT$ {product.price.toLocaleString()}
-                </p>
-                <p className="text-sm text-gray-500 mt-1">
-                  {product.inStock ? "庫存充足" : "暫時缺貨"}
-                </p>
-              </div>
-
-              <div className="space-y-4">
-                <h2 className="text-lg font-semibold text-gray-900">
-                  商品描述
-                </h2>
-                <p className="text-gray-600">{product.description}</p>
-              </div>
-
-              <div className="space-y-4">
-                <h2 className="text-lg font-semibold text-gray-900">
-                  商品規格
-                </h2>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-sm text-gray-500">品牌</p>
-                    <p className="text-gray-900">{product.brand}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">類別</p>
-                    <p className="text-gray-900">{product.category}</p>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                onClick={() =>
-                  addToCart({
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
-                    image: product.image,
-                    quantity: 1,
-                  })
-                }
-                disabled={!product.inStock}
-                className={`w-full py-3 px-6 rounded-lg text-white font-medium transition-colors ${
-                  product.inStock
-                    ? "bg-blue-600 hover:bg-blue-700"
-                    : "bg-gray-400 cursor-not-allowed"
-                }`}
-              >
-                {product.inStock ? "加入購物車" : "暫時缺貨"}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  return <ProductDetailClient product={product} />;
 }

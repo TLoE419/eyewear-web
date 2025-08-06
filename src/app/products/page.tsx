@@ -1,9 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 import { Slider } from "@/app/components/ui/slider";
-import { Checkbox } from "@/app/components/ui/checkbox";
 import { useCart } from "@/context/cartContext";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,13 +17,6 @@ export type Product = {
   description: string;
   inStock: boolean;
 };
-
-const priceRanges = [
-  { min: 0, max: 5000, label: "NT$ 0 - 5,000" },
-  { min: 5000, max: 10000, label: "NT$ 5,000 - 10,000" },
-  { min: 10000, max: 15000, label: "NT$ 10,000 - 15,000" },
-  { min: 15000, max: Infinity, label: "NT$ 15,000+" },
-];
 
 const brandCategories = [
   "Ray-Ban",
@@ -44,7 +35,6 @@ export default function ProductsPage() {
     0, 20000,
   ]);
   const { addToCart } = useCart();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     setProducts(productsData as Product[]);

@@ -1,6 +1,7 @@
 "use client";
 import { useCart } from "@/context/cartContext";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function CartPage() {
   const { cart, removeFromCart, clearCart } = useCart();
@@ -22,11 +23,13 @@ export default function CartPage() {
           <ul className="space-y-4">
             {cart.map((item) => (
               <li key={item.id} className="border p-4 rounded flex gap-4">
-                <img
+                <Image
                   src={item.image}
                   alt={item.name}
-                  className="w-24 h-24 object-cover"
-                ></img>
+                  width={96}
+                  height={96}
+                  className="object-cover"
+                />
                 <div className="flex-1">
                   <h2 className="font-semibold">{item.name}</h2>
                   <p>數量: {item.quantity}</p>
