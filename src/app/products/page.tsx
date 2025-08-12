@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Slider } from "@/app/components/ui/slider";
 import { useCart } from "@/context/cartContext";
 import Image from "next/image";
 import Link from "next/link";

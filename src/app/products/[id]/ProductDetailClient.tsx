@@ -1,6 +1,5 @@
 "use client";
 
-import { useCart } from "@/context/cartContext";
 import Image from "next/image";
 
 interface Product {
@@ -20,8 +19,6 @@ interface ProductDetailClientProps {
 export default function ProductDetailClient({
   product,
 }: ProductDetailClientProps) {
-  const { addToCart } = useCart();
-
   return (
     <div
       className="min-h-screen py-12 pt-[calc(env(safe-area-inset-top)+80px)] md:pt-[calc(env(safe-area-inset-top)+96px)]"

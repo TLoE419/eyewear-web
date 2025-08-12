@@ -8,7 +8,6 @@ const images = ["/hero-1.jpg", "/hero-2.jpg"];
 export default function Hero() {
   const [index, setIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
-  const [isTransitioning, setIsTransitioning] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
