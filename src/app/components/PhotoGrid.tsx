@@ -2,9 +2,11 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const PhotoGrid = () => {
   const [isScrolledTo, setIsScrolledTo] = useState(false);
+  const router = useRouter();
 
   // 檢查是否通過hash滾動到PhotoGrid區域
   useEffect(() => {
@@ -45,6 +47,11 @@ const PhotoGrid = () => {
     }
 
     window.open(googleMapsUrl, "_blank");
+  };
+
+  const handleBrandClick = (brand: string) => {
+    // 跳轉到產品頁面並過濾特定品牌
+    router.push(`/products?brand=${encodeURIComponent(brand)}`);
   };
 
   const handleBooking = (e: React.MouseEvent) => {

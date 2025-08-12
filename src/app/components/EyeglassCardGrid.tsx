@@ -33,7 +33,7 @@ const baseBrandLogos = [
     brandName: "MONTBLANC",
   },
   {
-    image: "/Logo/Agnès B.jpg",
+    image: "/Logo/AgnesB.jpg",
     href: "/products?brand=AgnesB",
     brandName: "Agnès B",
   },
@@ -43,7 +43,7 @@ const baseBrandLogos = [
     brandName: "Brooklyn",
   },
   {
-    image: "/Logo/Chloé.jpg",
+    image: "/Logo/Chloe.jpg",
     href: "/products?brand=Chloe",
     brandName: "Chloé",
   },

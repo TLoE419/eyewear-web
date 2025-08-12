@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useCart } from "@/context/cartContext";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import productsData from "@/data/products.json";
 
 export type Product = {
@@ -43,13 +44,20 @@ export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const searchParams = useSearchParams();
 
   const { addToCart } = useCart();
 
   useEffect(() => {
     setProducts(productsData as Product[]);
     setFilteredProducts(productsData as Product[]);
-  }, []);
+
+    // 檢查 URL 參數中是否有品牌過濾
+    const brandParam = searchParams.get("brand");
+    if (brandParam) {
+      setSelectedBrands([brandParam]);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     let filtered = [...products];
