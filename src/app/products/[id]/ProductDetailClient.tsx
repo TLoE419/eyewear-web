@@ -8,7 +8,6 @@ interface Product {
   name: string;
   brand: string;
   category: string;
-  price: number;
   image: string;
   description: string;
   inStock: boolean;
@@ -24,7 +23,10 @@ export default function ProductDetailClient({
   const { addToCart } = useCart();
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div
+      className="min-h-screen py-12 pt-[calc(env(safe-area-inset-top)+80px)] md:pt-[calc(env(safe-area-inset-top)+96px)]"
+      style={{ backgroundColor: "rgb(231, 229, 218)" }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-xl shadow-sm overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
@@ -47,10 +49,7 @@ export default function ProductDetailClient({
               </div>
 
               <div className="border-t border-b border-gray-200 py-6">
-                <p className="text-2xl font-bold text-rose-600">
-                  NT$ {product.price.toLocaleString()}
-                </p>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-gray-500">
                   {product.inStock ? "庫存充足" : "暫時缺貨"}
                 </p>
               </div>
@@ -66,37 +65,27 @@ export default function ProductDetailClient({
                 <h2 className="text-lg font-semibold text-gray-900">
                   商品規格
                 </h2>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-4">
                   <div>
-                    <p className="text-sm text-gray-500">品牌</p>
-                    <p className="text-gray-900">{product.brand}</p>
+                    <p className="text-sm text-gray-500">產地</p>
+                    <p className="text-gray-900">日本</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">類別</p>
-                    <p className="text-gray-900">{product.category}</p>
+                    <p className="text-sm text-gray-500">材料</p>
+                    <p className="text-gray-900">-</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">尺寸</p>
+                    <p className="text-gray-900">
+                      單鏡面寬：52mm
+                      <br />
+                      鼻距：19mm
+                      <br />
+                      鏡腳長：145mm
+                    </p>
                   </div>
                 </div>
               </div>
-
-              <button
-                onClick={() =>
-                  addToCart({
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
-                    image: product.image,
-                    quantity: 1,
-                  })
-                }
-                disabled={!product.inStock}
-                className={`w-full py-3 px-6 rounded-lg text-white font-medium transition-colors ${
-                  product.inStock
-                    ? "bg-[rgb(136,99,64)] hover:bg-[rgb(115,65,29)]"
-                    : "bg-gray-400 cursor-not-allowed"
-                }`}
-              >
-                {product.inStock ? "加入購物車" : "暫時缺貨"}
-              </button>
             </div>
           </div>
         </div>

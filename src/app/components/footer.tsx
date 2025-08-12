@@ -2,8 +2,15 @@
 
 import Link from "next/link";
 import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function Footer() {
+  const [currentYear, setCurrentYear] = useState("");
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear().toString());
+  }, []);
+
   return (
     <footer className="bg-[rgb(38,38,38)] backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -18,13 +25,17 @@ export default function Footer() {
             </p>
             <div className="flex space-x-4">
               <a
-                href="#"
+                href="https://www.facebook.com/sibao.optician/?locale=zh_TW"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-[rgb(227,208,165)] hover:text-[rgb(136,99,64)] transition-colors"
               >
                 <Facebook size={20} />
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/sibao_eyewear/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-[rgb(227,208,165)] hover:text-[rgb(136,99,64)] transition-colors"
               >
                 <Instagram size={20} />
@@ -40,7 +51,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/products"
+                  href="/"
                   className="text-[rgb(227,208,165)] hover:text-[rgb(136,99,64)] transition-colors"
                 >
                   關於視寶
@@ -48,7 +59,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/products"
+                  href="/lenses"
                   className="text-[rgb(227,208,165)] hover:text-[rgb(136,99,64)] transition-colors"
                 >
                   鏡片品牌
@@ -63,12 +74,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/booking"
+                <a
+                  href="#photo-grid"
                   className="text-[rgb(227,208,165)] hover:text-[rgb(136,99,64)] transition-colors"
                 >
-                  聯絡眼鏡
-                </Link>
+                  聯絡我們
+                </a>
               </li>
             </ul>
           </div>
@@ -81,15 +92,15 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-center space-x-2 text-[rgb(227,208,165)]">
                 <MapPin size={18} />
-                <span>台北市信義區信義路五段7號</span>
+                <span>台南市新營區三民路121之6號</span>
               </li>
               <li className="flex items-center space-x-2 text-[rgb(227,208,165)]">
                 <Phone size={18} />
-                <span>02-1234-5678</span>
+                <span>06-633-1141</span>
               </li>
               <li className="flex items-center space-x-2 text-[rgb(227,208,165)]">
                 <Mail size={18} />
-                <span>contact@eyewear.com</span>
+                <span>si.bao066982496@gmail.com</span>
               </li>
             </ul>
           </div>
@@ -100,9 +111,7 @@ export default function Footer() {
               營業時間
             </h3>
             <ul className="space-y-2 text-[rgb(227,208,165)]">
-              <li>週一至週五: 10:00 - 21:00</li>
-              <li>週六: 10:00 - 20:00</li>
-              <li>週日: 11:00 - 19:00</li>
+              <li>週一至週日: 10:00 - 21:00</li>
             </ul>
           </div>
         </div>
@@ -111,7 +120,7 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-gray-200">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-[rgb(227,208,165)] text-sm">
-              © {new Date().getFullYear()} 視寶眼鏡. All rights reserved.
+              © {currentYear} 視寶眼鏡. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <Link

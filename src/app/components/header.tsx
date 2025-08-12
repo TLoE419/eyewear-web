@@ -4,9 +4,18 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { ShoppingCart, Search } from "lucide-react";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import { useCart } from "@/context/cartContext";
 
-export default function Header() {
+interface HeaderProps {
+  disableTransparency?: boolean;
+}
+
+export default function Header({ disableTransparency = false }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+  const { cart } = useCart();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -14,13 +23,64 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // 處理URL hash，當頁面載入時滾動到指定區域
+  useEffect(() => {
+    if (pathname === "/" && window.location.hash === "#photo-grid") {
+      setTimeout(() => {
+        const photoGrid = document.getElementById("photo-grid");
+        if (photoGrid) {
+          photoGrid.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 500); // 增加延遲時間確保頁面完全載入
+    }
+  }, [pathname]);
+
+  // 檢查是否在特定頁面（如 products 頁面、個別商品頁面、鏡片頁面或 cart 頁面）
+  const isProductsPage = pathname === "/products";
+  const isProductDetailPage = pathname.startsWith("/products/");
+  const isLensesPage = pathname === "/lenses";
+  const isCartPage = pathname === "/cart";
+  const shouldDisableTransparency =
+    disableTransparency ||
+    isProductsPage ||
+    isProductDetailPage ||
+    isLensesPage ||
+    isCartPage;
+
+  const handleContactClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (pathname === "/") {
+      // 如果已經在主頁，先滾動到PhotoGrid，然後設置hash
+      const photoGrid = document.getElementById("photo-grid");
+      if (photoGrid) {
+        // 使用更平滑的滾動動畫
+        photoGrid.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+          inline: "nearest",
+        });
+        // 滾動開始後設置hash
+        setTimeout(() => {
+          window.location.hash = "#photo-grid";
+        }, 300);
+      }
+    } else {
+      // 如果不在主頁，先導航到主頁，然後滾動到PhotoGrid
+      router.push("/#photo-grid");
+    }
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out transform ${
         scrolled ? "shadow-md translate-y-0" : "translate-y-0"
       }`}
       style={{
-        backgroundColor: scrolled ? "rgb(38, 38, 38)" : "transparent",
+        backgroundColor: shouldDisableTransparency
+          ? "rgb(38, 38, 38)"
+          : scrolled
+          ? "rgb(38, 38, 38)"
+          : "transparent",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -48,19 +108,31 @@ export default function Header() {
         <nav
           className="hidden md:flex gap-8 font-medium transition-colors duration-500 ease-in-out"
           style={{
-            color: scrolled ? "rgb(227, 208, 165)" : "rgb(250, 243, 224)",
+            color: shouldDisableTransparency
+              ? "rgb(227, 208, 165)"
+              : scrolled
+              ? "rgb(227, 208, 165)"
+              : "rgb(250, 243, 224)",
           }}
         >
           <Link href="/">關於視寶</Link>
-          <Link href="/products">鏡片品牌</Link>
           <Link href="/products">鏡框品牌</Link>
-          <Link href="/booking">聯絡眼鏡</Link>
+          <Link href="/lenses">鏡片品牌</Link>
+          <a href="#photo-grid" onClick={handleContactClick}>
+            聯絡我們
+          </a>
         </nav>
 
         {/* 右側功能區 */}
         <div
           className="flex items-center gap-4 transition-colors duration-500 ease-in-out"
-          style={{ color: scrolled ? "rgb(227, 208, 165)" : "rgb(38, 38, 38)" }}
+          style={{
+            color: shouldDisableTransparency
+              ? "rgb(227, 208, 165)"
+              : scrolled
+              ? "rgb(227, 208, 165)"
+              : "rgb(38, 38, 38)",
+          }}
         >
           <div className="flex items-center gap-2 bg-white rounded-full px-3 py-1 shadow">
             <Search size={16} style={{ color: "rgb(227, 208, 165)" }} />
@@ -85,7 +157,9 @@ export default function Header() {
             className="flex items-center gap-1 hover:text-blue-400"
           >
             <ShoppingCart size={20} />
-            <span>購物車(0)</span>
+            <span>
+              購物車({cart.reduce((sum, item) => sum + item.quantity, 0)})
+            </span>
           </Link>
         </div>
       </div>

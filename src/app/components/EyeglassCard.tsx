@@ -14,24 +14,16 @@ export default function EyeglassCard({
   brandName,
 }: EyeglassCardProps) {
   return (
-    <div
-      className="relative rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl group"
-      style={{ backgroundColor: "#ffffff" }}
-    >
+    <div className="bg-white rounded-lg shadow-sm overflow-hidden">
       <Link href={href} className="block">
-        <div className="relative aspect-square w-full">
+        <div className="relative w-full h-48 bg-white">
           <Image
             src={image}
             alt={`${brandName} brand`}
             fill
-            className="object-cover object-bottom"
+            className="object-contain p-1"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-          <div className="absolute bottom-0 left-0 right-0 py-6 px-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-[rgb(38,38,38)]">
-            <h3 className="text-[rgb(227,208,165)] text-3xl font-semibold text-center">
-              {brandName}
-            </h3>
-          </div>
         </div>
       </Link>
     </div>

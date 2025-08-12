@@ -11,7 +11,6 @@ export type Product = {
   id: string;
   name: string;
   brand: string;
-  price: number;
   category: string;
   image: string;
   description: string;
@@ -25,15 +24,27 @@ const brandCategories = [
   "BVLGARI",
   "GUCCI",
   "MONTBLANC",
+  "CLASSICO",
+  "SILHOUETTE",
+  "GIORGIO ARMANI",
+  "CHLOÉ",
+  "COACH",
+  "SALVATORE FERRAGAMO",
+  "AGNÈS B",
+  "BROOKLYN",
+  "DONNI EYE",
+  "FRANK CUSTOM",
+  "P+US",
+  "TALOR WITH RESPECT",
+  "PROJEKT PRODUKT",
+  "SIBAO",
 ];
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
-  const [selectedPriceRange, setSelectedPriceRange] = useState<number[]>([
-    0, 20000,
-  ]);
+
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -51,15 +62,8 @@ export default function ProductsPage() {
       );
     }
 
-    // Filter by price range
-    filtered = filtered.filter(
-      (product) =>
-        product.price >= selectedPriceRange[0] &&
-        product.price <= selectedPriceRange[1]
-    );
-
     setFilteredProducts(filtered);
-  }, [products, selectedBrands, selectedPriceRange]);
+  }, [products, selectedBrands]);
 
   const handleBrandToggle = (brand: string) => {
     setSelectedBrands((prev) =>
@@ -73,11 +77,12 @@ export default function ProductsPage() {
         <div className="flex flex-col md:flex-row gap-8">
           {/* Filters Sidebar */}
           <div className="w-full md:w-64 space-y-6">
-            <div className="bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-sm">
+            {/* Brand Filter */}
+            <div className="bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-sm sticky top-24">
               <h2 className="text-lg font-semibold mb-4 text-[rgb(136,99,64)]">
                 品牌篩選
               </h2>
-              <div className="space-y-2">
+              <div className="space-y-2 max-h-[500px] overflow-y-auto">
                 {brandCategories.map((brand) => (
                   <label
                     key={brand}
@@ -92,27 +97,6 @@ export default function ProductsPage() {
                     <span className="text-[rgb(136,99,64)]">{brand}</span>
                   </label>
                 ))}
-              </div>
-            </div>
-
-            <div className="bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-sm">
-              <h2 className="text-lg font-semibold mb-4 text-[rgb(136,99,64)]">
-                價格範圍
-              </h2>
-              <div className="space-y-4">
-                <div className="px-2">
-                  <Slider
-                    min={0}
-                    max={20000}
-                    step={1000}
-                    value={selectedPriceRange}
-                    onValueChange={setSelectedPriceRange}
-                  />
-                </div>
-                <div className="flex justify-between text-sm text-gray-600">
-                  <span>NT$ {selectedPriceRange[0]}</span>
-                  <span>NT$ {selectedPriceRange[1]}</span>
-                </div>
               </div>
             </div>
           </div>
@@ -145,24 +129,25 @@ export default function ProductsPage() {
                     </div>
                   </Link>
                   <div className="p-4">
-                    <h2 className="text-lg font-semibold text-gray-900">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-1">
                       {product.name}
                     </h2>
-                    <p className="text-gray-600 text-sm">{product.brand}</p>
-                    <p className="text-lg font-bold text-rose-600 mt-2">
-                      NT$ {product.price.toLocaleString()}
+                    <p className="text-gray-600 text-sm mb-3">
+                      {product.brand}
                     </p>
+
                     <button
                       onClick={() =>
                         addToCart({
                           id: product.id,
                           name: product.name,
-                          price: product.price,
+                          price: 0,
                           image: product.image,
                           quantity: 1,
+                          brand: product.brand,
                         })
                       }
-                      className="mt-3 w-full bg-[rgb(136,99,64)] text-white py-2 rounded-lg hover:bg-[rgb(115,65,29)] transition-colors"
+                      className="w-full bg-[rgb(136,99,64)] text-white py-2 rounded-lg hover:bg-[rgb(115,65,29)] transition-colors"
                     >
                       加入購物車
                     </button>

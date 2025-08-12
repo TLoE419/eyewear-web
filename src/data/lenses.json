@@ -1,0 +1,112 @@
+[
+  {
+    "id": "lens-1",
+    "name": "蔡司 清銳鏡片",
+    "brand": "ZEISS",
+    "category": "高清晰度",
+    "image": "/lenses/zeiss-clear.jpg",
+    "description": "蔡司清銳鏡片採用先進的光學技術，提供卓越的視覺清晰度和舒適度。專為追求完美視覺體驗的用戶設計。",
+    "features": [
+      "高清晰度光學設計",
+      "抗反射鍍膜",
+      "防藍光保護",
+      "超薄設計"
+    ],
+    "specifications": {
+      "material": "高折射率樹脂",
+      "coating": "多層抗反射鍍膜",
+      "thickness": "1.67",
+      "transmission": "99.5%"
+    },
+    "price": "NT$ 8,500",
+    "inStock": true
+  },
+  {
+    "id": "lens-2",
+    "name": "依視路 鑽晶鏡片",
+    "brand": "Essilor",
+    "category": "防護型",
+    "image": "/lenses/essilor-diamond.jpg",
+    "description": "依視路鑽晶鏡片結合了鑽石般的硬度和水晶般的透明度，提供最佳的視覺保護和舒適度。",
+    "features": [
+      "鑽石級硬度",
+      "防紫外線",
+      "抗刮傷",
+      "易清潔"
+    ],
+    "specifications": {
+      "material": "聚碳酸酯",
+      "coating": "鑽晶鍍膜",
+      "thickness": "1.59",
+      "transmission": "98.8%"
+    },
+    "price": "NT$ 6,800",
+    "inStock": true
+  },
+  {
+    "id": "lens-3",
+    "name": "豪雅 漸進鏡片",
+    "brand": "HOYA",
+    "category": "漸進多焦",
+    "image": "/lenses/hoya-progressive.jpg",
+    "description": "豪雅漸進鏡片採用先進的數位化設計，提供自然的視覺過渡，讓您在不同距離都能享受清晰視野。",
+    "features": [
+      "數位化設計",
+      "自然視覺過渡",
+      "寬闊視野",
+      "快速適應"
+    ],
+    "specifications": {
+      "material": "高折射率樹脂",
+      "coating": "多層鍍膜",
+      "thickness": "1.74",
+      "transmission": "99.2%"
+    },
+    "price": "NT$ 12,000",
+    "inStock": true
+  },
+  {
+    "id": "lens-4",
+    "name": "羅敦司得 變色鏡片",
+    "brand": "Rodenstock",
+    "category": "變色鏡片",
+    "image": "/lenses/rodenstock-photochromic.jpg",
+    "description": "羅敦司得變色鏡片能根據光線強度自動調整顏色深淺，室內外一鏡搞定，保護眼睛免受強光傷害。",
+    "features": [
+      "自動變色",
+      "快速反應",
+      "均勻變色",
+      "長效保護"
+    ],
+    "specifications": {
+      "material": "高折射率樹脂",
+      "coating": "變色鍍膜",
+      "thickness": "1.67",
+      "transmission": "15-85%"
+    },
+    "price": "NT$ 9,500",
+    "inStock": true
+  },
+  {
+    "id": "lens-5",
+    "name": "尼康 防藍光鏡片",
+    "brand": "Nikon",
+    "category": "數位護眼",
+    "image": "/lenses/nikon-blue-cut.jpg",
+    "description": "尼康防藍光鏡片專為數位時代設計，有效阻擋有害藍光，減少眼睛疲勞，保護視力健康。",
+    "features": [
+      "高效防藍光",
+      "減少眼睛疲勞",
+      "保持自然色彩",
+      "全天候保護"
+    ],
+    "specifications": {
+      "material": "高折射率樹脂",
+      "coating": "防藍光鍍膜",
+      "thickness": "1.67",
+      "transmission": "95.5%"
+    },
+    "price": "NT$ 7,200",
+    "inStock": true
+  }
+]

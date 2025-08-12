@@ -18,7 +18,6 @@ interface Product {
   name: string;
   brand: string;
   category: string;
-  price: number;
   image: string;
   description: string;
   inStock: boolean;

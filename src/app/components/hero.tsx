@@ -1,12 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 const images = ["/hero-1.jpg", "/hero-2.jpg"];
 
 export default function Hero() {
   const [index, setIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -18,12 +21,18 @@ export default function Hero() {
 
   return (
     <section className="relative w-full h-[800px] overflow-hidden bg-black">
-      {/* 新圖：只拉近不淡入，避免亮度問題 */}
+      {/* 新圖：優雅的縮放和淡入效果 */}
       <motion.div
         key={`curr-${index}`}
-        initial={{ scale: 1 }}
-        animate={{ scale: 1.1 }}
-        transition={{ duration: 6, ease: "easeInOut" }}
+        initial={{ scale: 1.1, opacity: 0 }}
+        animate={{
+          scale: 1.2,
+          opacity: 1,
+        }}
+        transition={{
+          opacity: { duration: 0.8, ease: "easeInOut" },
+          scale: { duration: 6, ease: "easeInOut" },
+        }}
         className="absolute inset-0 z-0 will-change-transform"
         style={{
           backgroundImage: `url(${images[index]})`,
@@ -32,19 +41,19 @@ export default function Hero() {
         }}
       />
 
-      {/* 舊圖：上層模糊淡出且保持放大比例 */}
+      {/* 舊圖：優雅的淡出和縮放效果 */}
       <AnimatePresence>
         {prevIndex !== null && (
           <motion.div
             key={`prev-${prevIndex}`}
-            initial={{ filter: "blur(0px) brightness(1.05)", scale: 1.1 }}
+            initial={{ scale: 1.2, opacity: 1, filter: "blur(0px)" }}
             animate={{
+              scale: 1.25,
               opacity: 0,
-              filter: "blur(8px) brightness(1.05)",
-              scale: 1.1,
+              filter: "blur(8px) brightness(0.5)",
             }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 3, ease: "easeInOut" }}
+            exit={{ opacity: 0, scale: 1.25 }}
+            transition={{ duration: 2, ease: "easeInOut" }}
             className="absolute inset-0 z-10 pointer-events-none will-change-[filter,opacity,transform]"
             style={{
               backgroundImage: `url(${images[prevIndex]})`,
@@ -61,19 +70,73 @@ export default function Hero() {
         style={{ fontFamily: '"Microsoft JhengHei", sans-serif' }}
       >
         <div className="container mx-auto px-6">
-          <div className="text-white max-w-2xl text-center">
-            <h1 className="text-5xl font-bold mb-6 drop-shadow-lg">
+          <div className="max-w-2xl text-center">
+            <h1
+              className="text-5xl font-bold mb-6"
+              style={{
+                color: "rgb(38, 38, 38)",
+                textShadow:
+                  "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.6), 0 0 30px rgba(255,255,255,0.4)",
+              }}
+            >
               清新風格，剛剛上市
             </h1>
-            <p className="mb-8 text-xl drop-shadow">
+            <p
+              className="mb-8 text-xl"
+              style={{
+                color: "rgb(38, 38, 38)",
+                textShadow:
+                  "0 0 8px rgba(255,255,255,0.8), 0 0 16px rgba(255,255,255,0.6), 0 0 24px rgba(255,255,255,0.4)",
+              }}
+            >
               精選鏡框與鏡片，打造最適合你的眼鏡造型
             </p>
             <div className="flex gap-6 justify-center">
-              <button className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition text-lg">
-                選購女款
+              <button
+                className="px-8 py-3 rounded-lg transition text-lg transform active:scale-95"
+                style={{
+                  backgroundColor: "rgb(38, 38, 38)",
+                  color: "rgb(227, 208, 165)",
+                  transition: "all 0.3s ease",
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.backgroundColor = "rgb(48, 48, 48)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.backgroundColor = "rgb(38, 38, 38)")
+                }
+                onMouseDown={(e) => {
+                  e.currentTarget.style.transform = "scale(0.95)";
+                }}
+                onMouseUp={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                }}
+                onClick={() => router.push("/products")}
+              >
+                選購鏡框
               </button>
-              <button className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition text-lg">
-                選購男款
+              <button
+                className="px-8 py-3 rounded-lg transition text-lg transform active:scale-95"
+                style={{
+                  backgroundColor: "rgb(38, 38, 38)",
+                  color: "rgb(227, 208, 165)",
+                  transition: "all 0.3s ease",
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.backgroundColor = "rgb(48, 48, 48)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.backgroundColor = "rgb(38, 38, 38)")
+                }
+                onMouseDown={(e) => {
+                  e.currentTarget.style.transform = "scale(0.95)";
+                }}
+                onMouseUp={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                }}
+                onClick={() => router.push("/lenses")}
+              >
+                選購鏡片
               </button>
             </div>
           </div>
