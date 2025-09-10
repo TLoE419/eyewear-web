@@ -1,4 +1,5 @@
 export default {
-  output: "export", // Next 14+
-  images: { unoptimized: true }, // 若用 Next <13，改用 next export
+  // 移除 output: "export" 以支援動態渲染
+  images: { unoptimized: true },
+  // 如果需要靜態導出，請使用 next export 命令
 };

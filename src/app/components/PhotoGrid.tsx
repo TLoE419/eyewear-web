@@ -2,16 +2,25 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 const PhotoGrid = () => {
   const [isScrolledTo, setIsScrolledTo] = useState(false);
-  const router = useRouter();
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Set mounted state to prevent hydration issues
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // 檢查是否通過hash滾動到PhotoGrid區域
   useEffect(() => {
+    if (!isMounted) return;
+
     const checkHash = () => {
-      if (window.location.hash === "#photo-grid") {
+      if (
+        typeof window !== "undefined" &&
+        window.location.hash === "#photo-grid"
+      ) {
         // 立即顯示文字欄，創造特效
         setTimeout(() => {
           setIsScrolledTo(true);
@@ -24,16 +33,23 @@ const PhotoGrid = () => {
 
         // 清除hash以避免重複觸發
         setTimeout(() => {
-          window.history.replaceState(null, "", window.location.pathname);
+          if (typeof window !== "undefined") {
+            window.history.replaceState(null, "", window.location.pathname);
+          }
         }, 2000);
       }
     };
 
     checkHash();
-    window.addEventListener("hashchange", checkHash);
-    return () => window.removeEventListener("hashchange", checkHash);
-  }, []);
+    if (typeof window !== "undefined") {
+      window.addEventListener("hashchange", checkHash);
+      return () => window.removeEventListener("hashchange", checkHash);
+    }
+  }, [isMounted]);
+
   const openGoogleMaps = (store: string) => {
+    if (typeof window === "undefined") return;
+
     let googleMapsUrl = "";
 
     if (store === "liujia") {
@@ -49,14 +65,31 @@ const PhotoGrid = () => {
     window.open(googleMapsUrl, "_blank");
   };
 
-  const handleBrandClick = (brand: string) => {
-    // 跳轉到產品頁面並過濾特定品牌
-    router.push(`/products?brand=${encodeURIComponent(brand)}`);
-  };
-
   const handleBooking = (e: React.MouseEvent) => {
     e.stopPropagation(); // 防止觸發父元素的點擊事件
-    // 預約功能暫時停用
+
+    // 點擊回饋特效
+    const button = e.currentTarget as HTMLButtonElement;
+
+    // 縮放特效
+    button.style.transform = "scale(0.95)";
+    button.style.transition = "all 0.1s ease";
+
+    // 顏色變化特效
+    button.style.backgroundColor = "rgb(217,198,155)";
+
+    // 恢復原狀
+    setTimeout(() => {
+      button.style.transform = "scale(1)";
+      button.style.backgroundColor = "rgb(227,208,165)";
+    }, 100);
+
+    // 跳轉到 LINE 預約連結
+    setTimeout(() => {
+      if (typeof window !== "undefined") {
+        window.open("https://line.me/R/ti/p/@ksn7157i", "_blank");
+      }
+    }, 150);
   };
 
   return (
@@ -79,7 +112,7 @@ const PhotoGrid = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[rgb(38,38,38)] via-transparent to-transparent" />
         <div
-          className={`absolute inset-0 transition-transform duration-1000 bg-[rgb(38,38,38)]/90 flex flex-col items-center justify-center px-8 py-6 gap-4 text-center ${
+          className={`absolute inset-0 transition-transform duration-1000 bg-[rgb(38,38,38)]/90 flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 py-4 sm:py-6 md:py-8 gap-2 sm:gap-3 md:gap-4 text-center overflow-y-auto ${
             isScrolledTo
               ? "translate-x-0"
               : "-translate-x-full group-hover:translate-x-0"
@@ -88,23 +121,20 @@ const PhotoGrid = () => {
             pointerEvents: isScrolledTo ? "none" : "auto",
           }}
         >
-          <p className="text-[rgb(227,208,165)] text-xl font-normal mb-1">
+          <p className="text-[rgb(227,208,165)] text-base md:text-2xl font-normal mb-1">
             分店資訊
           </p>
-          <p className="text-[rgb(227,208,165)] text-5xl md:text-6xl font-bold mb-4">
+          <p className="text-[rgb(227,208,165)] text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-2 sm:mb-3 md:mb-4">
             六甲店
           </p>
-          <p className="text-[rgb(227,208,165)] text-lg font-normal leading-relaxed mb-4">
-            以一條極細的 LED 光框勾勒門楣，像替城市寫下無聲的引言<br></br>
-            燈帶在米白立面上留下乾淨的一筆，映出店內大理石中島的冷白與木質展示桌的暖調
-            <br></br>
-            一隻摺紙鹿靜靜守候，那是視覺與藝術的守門人
-          </p>
-          <p className="text-[rgb(227,208,165)] text-lg font-normal leading-relaxed mb-4">
+          <p className="text-[rgb(227,208,165)] text-sm sm:text-base md:text-xl font-normal leading-relaxed mb-1">
             地址：台南市六甲區民生街6號
           </p>
+          <p className="text-[rgb(227,208,165)] text-sm sm:text-base md:text-xl font-normal leading-relaxed mb-2 sm:mb-3 md:mb-4">
+            電話：06-6994868
+          </p>
           <button
-            className="bg-[rgb(227,208,165)] text-[rgb(38,38,38)] px-6 py-3 rounded-md font-semibold hover:bg-[rgb(217,198,155)] transition-colors duration-300"
+            className="bg-[rgb(227,208,165)] text-[rgb(38,38,38)] px-4 sm:px-6 py-2 sm:py-3 rounded-md font-semibold hover:bg-[rgb(217,198,155)] hover:scale-105 hover:shadow-lg transition-all duration-300 active:scale-95"
             onClick={handleBooking}
           >
             立即預約
@@ -135,23 +165,20 @@ const PhotoGrid = () => {
             pointerEvents: isScrolledTo ? "none" : "auto",
           }}
         >
-          <p className="text-[rgb(227,208,165)] text-xl font-normal mb-1">
+          <p className="text-[rgb(227,208,165)] text-base md:text-2xl font-normal mb-1">
             分店資訊
           </p>
-          <p className="text-[rgb(227,208,165)] text-5xl md:text-6xl font-bold mb-4">
+          <p className="text-[rgb(227,208,165)] text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-4">
             新營店
           </p>
-          <p className="text-[rgb(227,208,165)] text-lg font-normal leading-relaxed mb-4">
-            深色石柱如劇院門框，中央卻懸掛著一塊溫潤原木，矜持且不冷峻的對比
-            <br></br>
-            推門而入，方形天花拼板在頭頂展開節奏，映襯玻璃展櫃裡的鏡框<br></br>
-            每一件都是工藝樂章的高音符
-          </p>
-          <p className="text-[rgb(227,208,165)] text-lg font-normal leading-relaxed mb-4">
+          <p className="text-[rgb(227,208,165)] text-sm sm:text-base md:text-xl font-normal leading-relaxed mb-1">
             地址：台南市新營區三民路121之6號
           </p>
+          <p className="text-[rgb(227,208,165)] text-sm sm:text-base md:text-xl font-normal leading-relaxed mb-4">
+            電話：06-6331141
+          </p>
           <button
-            className="bg-[rgb(227,208,165)] text-[rgb(38,38,38)] px-6 py-3 rounded-md font-semibold hover:bg-[rgb(217,198,155)] transition-colors duration-300"
+            className="bg-[rgb(227,208,165)] text-[rgb(38,38,38)] px-6 py-3 rounded-md font-semibold hover:bg-[rgb(217,198,155)] hover:scale-105 hover:shadow-lg transition-all duration-300 active:scale-95"
             onClick={handleBooking}
           >
             立即預約

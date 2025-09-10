@@ -97,6 +97,11 @@ const baseBrandLogos = [
     href: "/products?brand=TalorWithRespect",
     brandName: "Talor with Respect",
   },
+  {
+    image: "/Logo/YSL.png",
+    href: "/products?brand=YSL",
+    brandName: "YSL",
+  },
 ];
 
 // Ensure exactly 20 items (5 x 4). Repeat logos if fewer available.
@@ -107,30 +112,41 @@ const eyeglassBrands = Array.from(
 
 export default function EyeglassCardGrid() {
   return (
-    <section className="w-full py-12 px-4 bg-[rgb(231,229,218)]">
+    <section className="w-full py-12 md:py-16 px-4 bg-[rgb(231,229,218)]">
       <div className="max-w-7xl mx-auto">
         {/* 品牌標題 */}
-        <div className="relative py-8 text-center mb-12">
+        <div className="relative py-6 md:py-8 text-center mb-8 md:mb-12">
           <div className="relative z-10">
-            <h2 className="text-4xl md:text-5xl font-playfair mb-2 tracking-wider text-gray-800 drop-shadow-[0_2px_2px_rgba(255,255,255,0.8)]">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-playfair mb-2 tracking-wider text-[rgb(136,99,64)] drop-shadow-[0_2px_2px_rgba(255,255,255,0.8)]">
               品牌系列
             </h2>
-            <h3 className="text-2xl md:text-3xl font-playfair text-gray-600 tracking-widest drop-shadow-[0_2px_2px_rgba(255,255,255,0.8)]">
+            <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-playfair text-gray-600 tracking-widest drop-shadow-[0_2px_2px_rgba(255,255,255,0.8)]">
               BRANDS
             </h3>
-            <div className="w-24 h-1 bg-gray-400 mx-auto mt-4" />
+            <div className="w-16 md:w-24 h-0.5 md:h-1 bg-gray-400 mx-auto mt-3 md:mt-4" />
           </div>
         </div>
 
-        <div className="grid grid-cols-5 gap-8">
+        {/* Circular Cards Grid */}
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5 gap-4 sm:gap-4 md:gap-2 lg:gap-2 xl:gap-4">
           {eyeglassBrands.map((brand, index) => (
-            <EyeglassCard
-              key={index}
-              image={brand.image}
-              href={brand.href}
-              brandName={brand.brandName}
-            />
+            <div key={index} className="flex justify-center">
+              <EyeglassCard
+                image={brand.image}
+                href={brand.href}
+                brandName={brand.brandName}
+              />
+            </div>
           ))}
+        </div>
+
+        {/* Decorative elements */}
+        <div className="mt-12 md:mt-16 text-center">
+          <div className="inline-flex items-center space-x-2 text-[rgb(136,99,64)] text-sm md:text-base">
+            <div className="w-8 h-px bg-[rgb(136,99,64)]"></div>
+            <span className="font-medium">點擊品牌探索更多</span>
+            <div className="w-8 h-px bg-[rgb(136,99,64)]"></div>
+          </div>
         </div>
       </div>
     </section>

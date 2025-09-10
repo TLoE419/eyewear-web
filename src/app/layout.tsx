@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
 import { CartProvider } from "@/context/cartContext";
-import ScrollToTop from "./components/scrollToTop";
-import { Inter, Playfair_Display } from "next/font/google";
-import Footer from "./components/footer";
+import { Playfair_Display, Noto_Sans_TC } from "next/font/google";
 import "./globals.css";
-import Header from "./components/header";
-import FloatingSocialButtons from "./components/FloatingSocialButtons";
+import ConditionalLayout from "./components/ConditionalLayout";
 
 /* const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 }); */
 
-const inter = Inter({ subsets: ["latin"] });
+const notoSansTC = Noto_Sans_TC({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-noto-sans-tc",
+});
+
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair-display",
@@ -40,14 +42,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${playfair.variable}`}>
-        <ScrollToTop />
+      <body className={`${notoSansTC.variable} ${playfair.variable} font-sans`}>
         <CartProvider>
-          <Header />
-          {children}
-          <Footer />
+          <ConditionalLayout>{children}</ConditionalLayout>
         </CartProvider>
-        <FloatingSocialButtons />
       </body>
     </html>
   );

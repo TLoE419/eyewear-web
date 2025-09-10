@@ -1,36 +1,107 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 視寶眼鏡網站
 
-## Getting Started
+專業的眼鏡配鏡服務網站，為您打造最適合的視覺體驗。
 
-First, run the development server:
+## 🚀 手機介面優化
+
+本網站已全面優化手機介面，提供最佳的移動端用戶體驗：
+
+### 📱 響應式設計特色
+
+#### Header 組件
+
+- **漢堡選單**: 手機版導航選單，包含所有主要頁面連結
+- **搜尋功能**: 可展開的搜尋欄位，適合手機操作
+- **購物車**: 帶有數量提示的購物車圖標
+- **LOGO 適配**: 根據螢幕大小自動調整 LOGO 尺寸
+
+#### 產品頁面
+
+- **篩選器優化**:
+  - 手機版：底部彈出式篩選器
+  - 平板版：網格式篩選器
+  - 桌面版：側邊欄篩選器
+- **產品網格**: 響應式網格佈局（手機 1 欄 → 平板 2 欄 → 桌面 3 欄）
+- **觸控友好**: 更大的按鈕和觸控區域
+
+#### 購物車頁面
+
+- **商品卡片**: 優化的商品資訊顯示
+- **數量控制**: 適合手指操作的加減按鈕
+- **訂單摘要**: 響應式佈局，手機版置底顯示
+
+#### 首頁優化
+
+- **Hero 區域**: 響應式高度和文字大小
+- **品牌展示**: 網格佈局自動調整（手機 2 欄 → 平板 3 欄 → 桌面 5 欄）
+- **按鈕佈局**: 手機版垂直排列，桌面版水平排列
+
+#### 鏡片頁面
+
+- **卡片設計**: 響應式卡片高度和內容
+- **詳細資訊**: 手機版單欄，桌面版雙欄佈局
+- **規格表格**: 適合手機閱讀的資訊展示
+
+#### Footer 組件
+
+- **網格佈局**: 手機版單欄，平板版雙欄，桌面版四欄
+- **聯絡資訊**: 優化的圖標和文字大小
+- **社交媒體**: 適合觸控的按鈕大小
+
+### 🎨 設計原則
+
+1. **移動優先**: 所有設計都以手機體驗為優先考量
+2. **觸控友好**: 按鈕和連結都有足夠的觸控區域（最小 44px）
+3. **文字可讀性**: 手機版文字大小適中，確保易於閱讀
+4. **載入速度**: 優化的圖片尺寸和載入策略
+5. **一致性**: 保持品牌色彩和設計風格的一致性
+
+### 📐 斷點設計
+
+- **手機**: < 640px (sm)
+- **平板**: 640px - 1024px (md, lg)
+- **桌面**: > 1024px (xl, 2xl)
+
+### 🛠 技術實現
+
+- **Tailwind CSS**: 響應式工具類
+- **Next.js**: 服務端渲染和圖片優化
+- **Framer Motion**: 流暢的動畫效果
+- **TypeScript**: 類型安全的開發體驗
+
+## 🚀 快速開始
 
 ```bash
+# 安裝依賴
+npm install
+
+# 開發模式
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# 建置生產版本
+npm run build
+
+# 啟動生產版本
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📱 測試手機介面
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. 使用瀏覽器的開發者工具
+2. 切換到手機/平板模式
+3. 測試不同螢幕尺寸的顯示效果
+4. 確認所有功能在手機上都能正常使用
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🎯 主要功能
 
-## Learn More
+- 品牌眼鏡展示
+- 專業鏡片介紹
+- 購物車功能
+- 響應式設計
+- 手機優化介面
 
-To learn more about Next.js, take a look at the following resources:
+## 📞 聯絡資訊
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- 地址：台南市新營區三民路 121 之 6 號
+- 電話：06-633-1141
+- 營業時間：週一至週日 10:00 - 21:00

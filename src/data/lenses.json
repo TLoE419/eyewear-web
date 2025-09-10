@@ -1,11 +1,11 @@
 [
   {
     "id": "lens-1",
-    "name": "蔡司 清銳鏡片",
+    "name": "ZEISS",
     "brand": "ZEISS",
     "category": "高清晰度",
     "image": "/lenses/zeiss-clear.jpg",
-    "description": "蔡司清銳鏡片採用先進的光學技術，提供卓越的視覺清晰度和舒適度。專為追求完美視覺體驗的用戶設計。",
+    "description": "德國 ZEISS 蔡司創立於 1846 年，是全球光學領域領導品牌，鏡片以精準度、舒適度與耐用性著稱.....",
     "features": [
       "高清晰度光學設計",
       "抗反射鍍膜",
@@ -23,11 +23,11 @@
   },
   {
     "id": "lens-2",
-    "name": "依視路 鑽晶鏡片",
-    "brand": "Essilor",
+    "name": "依視路",
+    "brand": "依視路",
     "category": "防護型",
     "image": "/lenses/essilor-diamond.jpg",
-    "description": "依視路鑽晶鏡片結合了鑽石般的硬度和水晶般的透明度，提供最佳的視覺保護和舒適度。",
+    "description": "法國依視路（Essilor）創立於 1849 年，是全球最大眼鏡鏡片製造商之一，以創新光學科技聞名.....",
     "features": [
       "鑽石級硬度",
       "防紫外線",
@@ -45,11 +45,11 @@
   },
   {
     "id": "lens-3",
-    "name": "豪雅 漸進鏡片",
+    "name": "HOYA",
     "brand": "HOYA",
     "category": "漸進多焦",
     "image": "/lenses/hoya-progressive.jpg",
-    "description": "豪雅漸進鏡片採用先進的數位化設計，提供自然的視覺過渡，讓您在不同距離都能享受清晰視野。",
+    "description": "日本 HOYA 創立於 1941 年，為全球光學與醫療科技領導品牌之一.....",
     "features": [
       "數位化設計",
       "自然視覺過渡",
@@ -67,11 +67,11 @@
   },
   {
     "id": "lens-4",
-    "name": "羅敦司得 變色鏡片",
-    "brand": "Rodenstock",
+    "name": "TOKAI",
+    "brand": "TOKAI",
     "category": "變色鏡片",
     "image": "/lenses/rodenstock-photochromic.jpg",
-    "description": "羅敦司得變色鏡片能根據光線強度自動調整顏色深淺，室內外一鏡搞定，保護眼睛免受強光傷害。",
+    "description": "日本東海光學（TOKAI）創立於 1939 年，以高端訂製鏡片聞名，是日本光學技術的代表之一.....",
     "features": [
       "自動變色",
       "快速反應",
@@ -89,11 +89,11 @@
   },
   {
     "id": "lens-5",
-    "name": "尼康 防藍光鏡片",
+    "name": "Nikon",
     "brand": "Nikon",
     "category": "數位護眼",
     "image": "/lenses/nikon-blue-cut.jpg",
-    "description": "尼康防藍光鏡片專為數位時代設計，有效阻擋有害藍光，減少眼睛疲勞，保護視力健康。",
+    "description": "日本 NIKON 依視路創立於 1917 年，源自精密光學與相機鏡頭技術，將頂級光學工藝延伸至眼鏡鏡片領域...",
     "features": [
       "高效防藍光",
       "減少眼睛疲勞",

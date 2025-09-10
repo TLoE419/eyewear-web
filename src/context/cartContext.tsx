@@ -22,21 +22,38 @@ type CartContextType = {
   removeFromCart: (id: string) => void;
   clearCart: () => void;
   updateQuantity: (id: string, quantity: number) => void;
+  isMounted: boolean;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
 
+  // Load cart from localStorage only after component mounts
   useEffect(() => {
-    const stored = localStorage.getItem("cart");
-    if (stored) setCart(JSON.parse(stored));
+    setIsMounted(true);
+    try {
+      const stored = localStorage.getItem("cart");
+      if (stored) {
+        setCart(JSON.parse(stored));
+      }
+    } catch (error) {
+      console.error("Error loading cart from localStorage:", error);
+    }
   }, []);
 
+  // Save cart to localStorage only after component mounts
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
+    if (isMounted) {
+      try {
+        localStorage.setItem("cart", JSON.stringify(cart));
+      } catch (error) {
+        console.error("Error saving cart to localStorage:", error);
+      }
+    }
+  }, [cart, isMounted]);
 
   const addToCart = (item: CartItem) => {
     setCart((prev) => {
@@ -68,7 +85,14 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, clearCart, updateQuantity }}
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        clearCart,
+        updateQuantity,
+        isMounted,
+      }}
     >
       {children}
     </CartContext.Provider>
