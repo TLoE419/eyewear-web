@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,6 +9,7 @@ module.exports = {
     extend: {
       fontFamily: {
         playfair: ["var(--font-playfair-display)"],
+        calligraphy: ["MyCalligraphy", "sans-serif"],
         sans: [
           "var(--font-noto-sans-tc)",
           "Noto Sans TC",

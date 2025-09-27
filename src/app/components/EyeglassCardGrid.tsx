@@ -1,5 +1,7 @@
 "use client";
 import EyeglassCard from "./EyeglassCard";
+import { usePhotosByCategory } from "@/hooks/usePhotoManagement";
+import { PhotoCategory } from "@/lib/photoManagement";
 
 const baseBrandLogos = [
   {
@@ -104,13 +106,25 @@ const baseBrandLogos = [
   },
 ];
 
-// Ensure exactly 20 items (5 x 4). Repeat logos if fewer available.
-const eyeglassBrands = Array.from(
-  { length: 20 },
-  (_, index) => baseBrandLogos[index % baseBrandLogos.length]
-);
-
 export default function EyeglassCardGrid() {
+  const { photos: brandPhotos } = usePhotosByCategory(PhotoCategory.BRAND_LOGO);
+
+  // 預設品牌陣列（避免每次渲染重新創建）
+  const defaultBrands = Array.from(
+    { length: 20 },
+    (_, index) => baseBrandLogos[index % baseBrandLogos.length]
+  );
+
+  // 如果沒有照片，使用預設照片
+  const eyeglassBrands =
+    brandPhotos.length > 0
+      ? brandPhotos.map((photo) => ({
+          image: photo.image_url,
+          href: `/products?brand=${photo.文字欄1}`,
+          brandName: photo.文字欄1 || "品牌",
+        }))
+      : defaultBrands;
+
   return (
     <section className="w-full py-12 md:py-16 px-4 bg-[rgb(231,229,218)]">
       <div className="max-w-7xl mx-auto">

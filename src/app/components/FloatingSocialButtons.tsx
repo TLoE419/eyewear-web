@@ -14,7 +14,7 @@ const socialLinks = [
   },
   {
     icon: <FaLine size={40} />,
-    url: "https://line.me",
+    url: "https://line.me/R/ti/p/@ksn7157i",
     label: "Line",
   },
 ];

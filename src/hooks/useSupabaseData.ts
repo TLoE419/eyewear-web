@@ -29,18 +29,9 @@ export interface Lens {
   id: string;
   name: string;
   brand: string;
-  category: string;
   image: string;
-  description: string;
-  features: string[];
-  specifications: {
-    material: string;
-    coating: string;
-    thickness: string;
-    transmission: string;
-  };
-  price: string;
-  inStock: boolean;
+  shortDescription: string;
+  longDescription: string;
   created_at?: string;
   updated_at?: string;
 }
@@ -114,14 +105,8 @@ export function useLenses() {
 
         if (error) throw error;
 
-        // 處理欄位名稱轉換（instock -> inStock）
-        const processedData = (data || []).map((item) => ({
-          ...item,
-          inStock: item.instock,
-          instock: undefined,
-        }));
-
-        setLenses(processedData);
+        // 直接使用 Supabase 數據，無需額外處理
+        setLenses(data || []);
       } catch (err: unknown) {
         console.error("獲取鏡片資料失敗:", err);
         setError(err instanceof Error ? err.message : "未知錯誤");

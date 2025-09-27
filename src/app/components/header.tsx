@@ -40,6 +40,36 @@ export default function Header({ disableTransparency = false }: HeaderProps) {
     }
   }, [isMounted]);
 
+  // 當頁面切換時重置 scrolled 狀態
+  useEffect(() => {
+    if (!isMounted) return;
+    // 立即重置 scrolled 狀態
+    setScrolled(false);
+    // 使用 setTimeout 確保 DOM 更新後再檢查滾動位置
+    setTimeout(() => {
+      if (typeof window !== "undefined") {
+        const currentScroll = window.scrollY;
+        if (currentScroll > 50) {
+          setScrolled(true);
+        }
+      }
+    }, 0);
+  }, [pathname, isMounted]);
+
+  // 強制在非主頁時設置 scrolled 為 true
+  useEffect(() => {
+    if (!isMounted) return;
+    if (pathname !== "/") {
+      setScrolled(true);
+    } else {
+      // 在主頁時檢查實際滾動位置
+      if (typeof window !== "undefined") {
+        const currentScroll = window.scrollY;
+        setScrolled(currentScroll > 50);
+      }
+    }
+  }, [pathname, isMounted]);
+
   // 處理URL hash，當頁面載入時滾動到指定區域
   useEffect(() => {
     if (!isMounted) return;
@@ -92,13 +122,13 @@ export default function Header({ disableTransparency = false }: HeaderProps) {
       // 開始嘗試滾動
       setTimeout(() => attemptScroll(), 300);
     }
-  }, [pathname, isMounted]);
+  }, [pathname, isMounted, router]);
 
   // 檢查是否在特定頁面（如 products 頁面、個別商品頁面、鏡片頁面或 cart 頁面）
   const isProductsPage = pathname === "/products";
   const isProductDetailPage = pathname.startsWith("/products/");
-  const isLensesPage = pathname === "/lenses";
-  const isCartPage = pathname === "/cart";
+  const isLensesPage = pathname === "/lenses" || pathname.startsWith("/lenses");
+  const isCartPage = pathname === "/cart" || pathname.startsWith("/cart");
   const shouldDisableTransparency =
     disableTransparency ||
     isProductsPage ||
@@ -106,41 +136,70 @@ export default function Header({ disableTransparency = false }: HeaderProps) {
     isLensesPage ||
     isCartPage;
 
+  // 調試信息
+  console.log("Header State:", {
+    pathname,
+    scrolled,
+    shouldDisableTransparency,
+    backgroundColor:
+      pathname === "/" && !scrolled ? "transparent" : "rgb(38, 38, 38)",
+  });
+
   const handleContactClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setMobileMenuOpen(false); // 關閉手機選單
-    if (pathname === "/") {
-      // 如果已經在主頁，先滾動到PhotoGrid，然後設置hash
+
+    const scrollToPhotoGrid = (attempts = 0) => {
+      if (attempts > 10) return; // 最多嘗試10次
+
       const photoGrid = document.getElementById("photo-grid");
       if (photoGrid) {
-        // 計算 PhotoGrid 的準確位置並滾動到上沿
+        // 檢查元素是否已經完全渲染
         const rect = photoGrid.getBoundingClientRect();
+        if (rect.height === 0 && attempts < 10) {
+          // 如果元素還沒有高度，等待一下再試
+          setTimeout(() => scrollToPhotoGrid(attempts + 1), 200);
+          return;
+        }
+
+        // 計算 PhotoGrid 的準確位置並滾動到上沿
         const scrollTop =
           window.pageYOffset || document.documentElement.scrollTop;
         const targetPosition = rect.top + scrollTop;
 
         // 考慮 header 的高度，讓 PhotoGrid 貼齊 header 下沿
         const header = document.querySelector("header");
-        // 使用更精確的header高度計算，考慮可能的動態變化
         const headerHeight = header ? header.offsetHeight : 80;
-        // 添加一點額外的緩衝，確保不會被header遮擋
         const adjustedPosition = targetPosition - headerHeight - 5;
 
         // 使用更精確的滾動到 PhotoGrid 的上沿
         window.scrollTo({
-          top: Math.max(0, adjustedPosition), // 確保不會滾動到負數位置
+          top: Math.max(0, adjustedPosition),
           behavior: "smooth",
         });
-        // 滾動開始後設置hash
+
+        // 設置hash
         setTimeout(() => {
           if (typeof window !== "undefined") {
             window.location.hash = "#photo-grid";
           }
-        }, 500); // 增加延遲時間確保滾動完成
+        }, 500);
+      } else if (attempts < 10) {
+        // 如果元素還沒找到，等待一下再試
+        setTimeout(() => scrollToPhotoGrid(attempts + 1), 200);
       }
+    };
+
+    if (pathname === "/") {
+      // 如果已經在主頁，直接滾動
+      scrollToPhotoGrid();
     } else {
-      // 如果不在主頁，先導航到主頁，然後滾動到PhotoGrid
-      router.push("/#photo-grid");
+      // 如果不在主頁，先導航到主頁
+      router.push("/");
+      // 等待導航完成後滾動，增加延遲時間確保頁面完全載入
+      setTimeout(() => {
+        scrollToPhotoGrid();
+      }, 500);
     }
   };
 
@@ -148,16 +207,19 @@ export default function Header({ disableTransparency = false }: HeaderProps) {
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out transform ${
         scrolled ? "shadow-md translate-y-0" : "translate-y-0"
+      } ${
+        shouldDisableTransparency || pathname !== "/"
+          ? "bg-[rgb(38,38,38)]"
+          : ""
       }`}
       style={{
-        backgroundColor: shouldDisableTransparency
-          ? "rgb(38, 38, 38)"
-          : scrolled
-          ? "rgb(38, 38, 38)"
-          : "transparent",
+        backgroundColor:
+          pathname === "/" && !scrolled ? "transparent" : "rgb(38, 38, 38)",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
+      data-page={pathname}
+      data-transparency-disabled={shouldDisableTransparency}
     >
       <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 py-0 flex items-center justify-between transition-all duration-500 ease-in-out h-16 md:h-20">
         {/* 左側 LOGO 區塊 */}

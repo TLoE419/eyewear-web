@@ -1,5 +1,19 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'MyCalligraphy';
+  src: url('/fonts/Calligraphr-Regular.woff2') format('woff2'),
+       url('/fonts/Calligraphr-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 測試字體是否加載 */
+.test-calligraphy {
+  font-family: 'MyCalligraphy', sans-serif !important;
+}
+
 :root {
   --background: rgb(231, 229, 218);
   --foreground: #000000;

@@ -17,6 +17,10 @@
 /.next/
 /out/
 
+# webpack cache
+.cache/
+node_modules/.cache/
+
 # production
 /build
 

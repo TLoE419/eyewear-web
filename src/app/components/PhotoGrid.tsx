@@ -2,10 +2,15 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { usePhotosByCategory } from "@/hooks/usePhotoManagement";
+import { PhotoCategory } from "@/lib/photoManagement";
 
 const PhotoGrid = () => {
   const [isScrolledTo, setIsScrolledTo] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const { photos: storePhotos } = usePhotosByCategory(
+    PhotoCategory.STORE_PHOTO
+  );
 
   // Set mounted state to prevent hydration issues
   useEffect(() => {
@@ -104,8 +109,14 @@ const PhotoGrid = () => {
         onClick={() => openGoogleMaps("liujia")}
       >
         <Image
-          src="/Store_1.jpg"
-          alt="Featured photo 1"
+          src={
+            storePhotos.length > 0 ? storePhotos[0].image_url : "/Store_1.jpg"
+          }
+          alt={
+            storePhotos.length > 0
+              ? storePhotos[0].title || "Featured photo 1"
+              : "Featured photo 1"
+          }
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           priority

@@ -1,20 +1,32 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-const images = ["/hero-1.jpg", "/hero-2.jpg"];
+import { usePhotosByCategory } from "@/hooks/usePhotoManagement";
+import { PhotoCategory } from "@/lib/photoManagement";
 
 export default function Hero() {
   const [index, setIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
+  const { photos: heroPhotos } = usePhotosByCategory(PhotoCategory.HERO);
+
+  // 如果沒有照片，使用預設照片
+  const images =
+    heroPhotos.length > 0
+      ? heroPhotos.map((photo) => photo.image_url)
+      : ["/hero-1.jpg", "/hero-2.jpg"];
 
   useEffect(() => {
+    if (images.length === 0) return;
+
     const timer = setInterval(() => {
-      setPrevIndex(index);
+      setPrevIndex((prevIndex) => {
+        const currentIndex = prevIndex === null ? index : prevIndex;
+        return currentIndex;
+      });
       setIndex((prev) => (prev + 1) % images.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, [index]);
+  }, [images.length, index]);
 
   return (
     <section className="relative w-full h-[500px] sm:h-[600px] md:h-[700px] lg:h-[800px] overflow-hidden bg-black">
@@ -64,31 +76,28 @@ export default function Hero() {
       {/* 文字層 */}
       <div
         className="absolute inset-0 z-20 flex items-center justify-center"
-        style={{ fontFamily: '"Microsoft JhengHei", sans-serif' }}
+        style={{
+          fontFamily: '"MyCalligraphy", sans-serif',
+        }}
       >
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-2xl text-center">
-            <h1
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6"
-              style={{
-                color: "rgb(38, 38, 38)",
-                textShadow:
-                  "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.6), 0 0 30px rgba(255,255,255,0.4)",
-              }}
-            >
-              清新風格，剛剛上市
-            </h1>
-            <p
-              className="text-base sm:text-lg md:text-xl px-4"
-              style={{
-                color: "rgb(38, 38, 38)",
-                textShadow:
-                  "0 0 8px rgba(255,255,255,0.8), 0 0 16px rgba(255,255,255,0.6), 0 0 24px rgba(255,255,255,0.4)",
-              }}
-            >
-              精選鏡框與鏡片，打造最適合你的眼鏡造型
-            </p>
-          </div>
+        <div className="flex items-center justify-center w-full h-full">
+          <h1
+            className="font-bold"
+            style={{
+              color: "rgb(38, 38, 38)",
+              fontFamily: '"MyCalligraphy", sans-serif',
+              lineHeight: "1.5",
+              fontSize: "clamp(3rem, 8vw, 6rem)",
+              textShadow:
+                "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.6), 0 0 30px rgba(255,255,255,0.4)",
+              writingMode: "vertical-rl",
+              textOrientation: "upright",
+            }}
+          >
+            　親久炫目睛
+            <br />
+            寶鏡如明月
+          </h1>
         </div>
       </div>
 

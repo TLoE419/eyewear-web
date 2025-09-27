@@ -2,64 +2,92 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { usePhotosByCategory } from "@/hooks/usePhotoManagement";
+import { PhotoCategory } from "@/lib/photoManagement";
 
 export default function News() {
   const router = useRouter();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const animationRef = useRef<number | null>(null);
+  const { photos: newsPhotos } = usePhotosByCategory(
+    PhotoCategory.NEWS_CAROUSEL
+  );
+
+  // 預設標題陣列（移到組件外部避免重新創建）
+  const defaultTitles = [
+    "BVLGARI 眼鏡",
+    "GUCCI 眼鏡",
+    "MONTBLANC 眼鏡",
+    "Ray-Ban 眼鏡",
+    "999.9 眼鏡",
+    "LINDBERG 眼鏡",
+  ];
 
   // 輪播圖片數據 - 使用眼鏡產品照片
-  const carouselItems = [
-    {
-      id: 1,
-      image: "/BVLGARI/BVLGARI_1.jpg",
-      title: "BVLGARI 眼鏡",
-      action: "products",
-    },
-    {
-      id: 2,
-      image: "/GUCCI/GUCCI_1.jpg",
-      title: "GUCCI 眼鏡",
-      action: "products",
-    },
-    {
-      id: 3,
-      image: "/MONTBLANC/MONTBLANC_1.jpg",
-      title: "MONTBLANC 眼鏡",
-      action: "products",
-    },
-    {
-      id: 4,
-      image: "/Ray.Ban/RayBan_1.jpg",
-      title: "Ray-Ban 眼鏡",
-      action: "products",
-    },
-    {
-      id: 5,
-      image: "/LINDBERG/Lindberg_1.jpg",
-      title: "LINDBERG 眼鏡",
-      action: "products",
-    },
-    {
-      id: 6,
-      image: "/BVLGARI/BVLGARI_2.jpg",
-      title: "BVLGARI 眼鏡",
-      action: "products",
-    },
-    {
-      id: 7,
-      image: "/GUCCI/GUCCI_2.jpg",
-      title: "GUCCI 眼鏡",
-      action: "products",
-    },
-    {
-      id: 8,
-      image: "/MONTBLANC/MONTBLANC_2.jpg",
-      title: "MONTBLANC 眼鏡",
-      action: "products",
-    },
-  ];
+  const carouselItems =
+    newsPhotos.length > 0
+      ? newsPhotos.map((photo, index) => {
+          return {
+            id: photo.id,
+            image: photo.image_url,
+            title:
+              photo.title && !photo.title.includes("_")
+                ? photo.title
+                : photo.文字欄1 || defaultTitles[index % defaultTitles.length],
+            action: "products",
+          };
+        })
+      : [
+          {
+            id: 1,
+            image: "/BVLGARI/BVLGARI_1.jpg",
+            title: "BVLGARI 眼鏡",
+            action: "products",
+          },
+          {
+            id: 2,
+            image: "/GUCCI/GUCCI_1.jpg",
+            title: "GUCCI 眼鏡",
+            action: "products",
+          },
+          {
+            id: 3,
+            image: "/MONTBLANC/MONTBLANC_1.jpg",
+            title: "MONTBLANC 眼鏡",
+            action: "products",
+          },
+          {
+            id: 4,
+            image: "/Ray.Ban/RayBan_1.jpg",
+            title: "Ray-Ban 眼鏡",
+            action: "products",
+          },
+          {
+            id: 5,
+            image: "/LINDBERG/Lindberg_1.jpg",
+            title: "LINDBERG 眼鏡",
+            action: "products",
+          },
+          {
+            id: 6,
+            image: "/BVLGARI/BVLGARI_2.jpg",
+            title: "BVLGARI 眼鏡",
+            action: "products",
+          },
+          {
+            id: 7,
+            image: "/GUCCI/GUCCI_2.jpg",
+            title: "GUCCI 眼鏡",
+            action: "products",
+          },
+          {
+            id: 8,
+            image: "/MONTBLANC/MONTBLANC_2.jpg",
+            title: "MONTBLANC 眼鏡",
+            action: "products",
+          },
+        ];
 
   // 創建重複的圖片陣列以實現無縫循環
   const duplicatedItems = [
