@@ -3,6 +3,7 @@ import React from "react";
 import EyeglassCard from "./EyeglassCard";
 import { usePhotosByCategory } from "@/hooks/usePhotoManagement";
 import { PhotoCategory } from "@/lib/photoManagement";
+import { CardSkeleton } from "./LoadingSpinner";
 
 const baseBrandLogos = [
   {
@@ -108,7 +109,7 @@ const baseBrandLogos = [
 ];
 
 export default function EyeglassCardGrid() {
-  const { photos: brandPhotos } = usePhotosByCategory(PhotoCategory.BRAND_LOGO);
+  const { photos: brandPhotos, loading } = usePhotosByCategory(PhotoCategory.BRAND_LOGO);
 
   // 預設品牌陣列（避免每次渲染重新創建）
   const defaultBrands = Array.from(
@@ -162,11 +163,14 @@ export default function EyeglassCardGrid() {
       : defaultBrands;
 
   // 調整品牌數量為3的倍數，讓每行顯示整齊（僅在手機頁面時）
-  const adjustToMultipleOfThree = (brands: typeof allBrands, isMobile: boolean) => {
+  const adjustToMultipleOfThree = (
+    brands: typeof allBrands,
+    isMobile: boolean
+  ) => {
     if (!isMobile) {
       return brands; // 桌面版顯示所有品牌
     }
-    
+
     const remainder = brands.length % 3;
     if (remainder === 0) {
       return brands; // 已經是3的倍數
@@ -184,11 +188,11 @@ export default function EyeglassCardGrid() {
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth < 768); // md breakpoint
     };
-    
+
     checkIsMobile();
-    window.addEventListener('resize', checkIsMobile);
-    
-    return () => window.removeEventListener('resize', checkIsMobile);
+    window.addEventListener("resize", checkIsMobile);
+
+    return () => window.removeEventListener("resize", checkIsMobile);
   }, []);
 
   const eyeglassBrands = adjustToMultipleOfThree(allBrands, isMobile);
@@ -210,17 +214,21 @@ export default function EyeglassCardGrid() {
         </div>
 
         {/* Circular Cards Grid */}
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5 gap-4 sm:gap-4 md:gap-2 lg:gap-2 xl:gap-4">
-          {eyeglassBrands.map((brand, index) => (
-            <div key={index} className="flex justify-center">
-              <EyeglassCard
-                image={brand.image}
-                href={brand.href}
-                brandName={brand.brandName}
-              />
-            </div>
-          ))}
-        </div>
+        {loading ? (
+          <CardSkeleton count={isMobile ? 18 : 20} />
+        ) : (
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5 gap-4 sm:gap-4 md:gap-2 lg:gap-2 xl:gap-4">
+            {eyeglassBrands.map((brand, index) => (
+              <div key={index} className="flex justify-center">
+                <EyeglassCard
+                  image={brand.image}
+                  href={brand.href}
+                  brandName={brand.brandName}
+                />
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Decorative elements */}
         <div className="mt-12 md:mt-16 text-center">

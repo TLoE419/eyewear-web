@@ -3,11 +3,12 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePhotosByCategory } from "@/hooks/usePhotoManagement";
 import { PhotoCategory } from "@/lib/photoManagement";
+import LoadingSpinner from "./LoadingSpinner";
 
 export default function Hero() {
   const [index, setIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
-  const { photos: heroPhotos } = usePhotosByCategory(PhotoCategory.HERO);
+  const { photos: heroPhotos, loading } = usePhotosByCategory(PhotoCategory.HERO);
 
   // 如果沒有照片，使用預設照片
   const images =
@@ -30,25 +31,33 @@ export default function Hero() {
 
   return (
     <section className="relative w-full h-[500px] sm:h-[600px] md:h-[700px] lg:h-[800px] overflow-hidden bg-black">
-      {/* 新圖：優雅的縮放和淡入效果 */}
-      <motion.div
-        key={`curr-${index}`}
-        initial={{ scale: 1.1, opacity: 0 }}
-        animate={{
-          scale: 1.2,
-          opacity: 1,
-        }}
-        transition={{
-          opacity: { duration: 0.8, ease: "easeInOut" },
-          scale: { duration: 6, ease: "easeInOut" },
-        }}
-        className="absolute inset-0 z-0 will-change-transform"
-        style={{
-          backgroundImage: `url(${images[index]})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
+      {loading ? (
+        <div className="absolute inset-0 z-0 flex items-center justify-center">
+          <LoadingSpinner size="lg" color="white" text="載入中..." />
+        </div>
+      ) : (
+        <>
+          {/* 新圖：優雅的縮放和淡入效果 */}
+          <motion.div
+            key={`curr-${index}`}
+            initial={{ scale: 1.1, opacity: 0 }}
+            animate={{
+              scale: 1.2,
+              opacity: 1,
+            }}
+            transition={{
+              opacity: { duration: 0.8, ease: "easeInOut" },
+              scale: { duration: 6, ease: "easeInOut" },
+            }}
+            className="absolute inset-0 z-0 will-change-transform"
+            style={{
+              backgroundImage: `url(${images[index]})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+        </>
+      )}
 
       {/* 舊圖：優雅的淡出和縮放效果 */}
       <AnimatePresence>

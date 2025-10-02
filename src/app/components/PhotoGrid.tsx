@@ -4,11 +4,12 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { usePhotosByCategory } from "@/hooks/usePhotoManagement";
 import { PhotoCategory } from "@/lib/photoManagement";
+import { ImageSkeleton } from "./LoadingSpinner";
 
 const PhotoGrid = () => {
   const [isScrolledTo, setIsScrolledTo] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const { photos: storePhotos } = usePhotosByCategory(
+  const { photos: storePhotos, loading } = usePhotosByCategory(
     PhotoCategory.STORE_PHOTO
   );
 
@@ -108,19 +109,23 @@ const PhotoGrid = () => {
         }`}
         onClick={() => openGoogleMaps("liujia")}
       >
-        <Image
-          src={
-            storePhotos.length > 0 ? storePhotos[0].image_url : "/Store_1.jpg"
-          }
-          alt={
-            storePhotos.length > 0
-              ? storePhotos[0].title || "Featured photo 1"
-              : "Featured photo 1"
-          }
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          priority
-        />
+        {loading ? (
+          <ImageSkeleton className="w-full h-full" />
+        ) : (
+          <Image
+            src={
+              storePhotos.length > 0 ? storePhotos[0].image_url : "/Store_1.jpg"
+            }
+            alt={
+              storePhotos.length > 0
+                ? storePhotos[0].title || "Featured photo 1"
+                : "Featured photo 1"
+            }
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            priority
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-[rgb(38,38,38)] via-transparent to-transparent" />
         <div
           className={`absolute inset-0 transition-transform duration-1000 bg-[rgb(38,38,38)]/90 flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 py-4 sm:py-6 md:py-8 gap-2 sm:gap-3 md:gap-4 text-center overflow-y-auto ${
@@ -155,13 +160,17 @@ const PhotoGrid = () => {
         }`}
         onClick={() => openGoogleMaps("xinying")}
       >
-        <Image
-          src="/Store_2.jpg"
-          alt="Featured photo 2"
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          priority
-        />
+        {loading ? (
+          <ImageSkeleton className="w-full h-full" />
+        ) : (
+          <Image
+            src="/Store_2.jpg"
+            alt="Featured photo 2"
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            priority
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-[rgb(38,38,38)] via-transparent to-transparent" />
         <div
           className={`absolute inset-0 transition-transform duration-1000 bg-[rgb(38,38,38)]/90 flex flex-col items-center justify-center px-8 py-6 gap-4 text-center ${

@@ -4,13 +4,14 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { usePhotosByCategory } from "@/hooks/usePhotoManagement";
 import { PhotoCategory } from "@/lib/photoManagement";
+import LoadingSpinner from "./LoadingSpinner";
 
 export default function News() {
   const router = useRouter();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const animationRef = useRef<number | null>(null);
-  const { photos: newsPhotos } = usePhotosByCategory(
+  const { photos: newsPhotos, loading } = usePhotosByCategory(
     PhotoCategory.NEWS_CAROUSEL
   );
 
@@ -139,37 +140,43 @@ export default function News() {
       </div>
 
       {/* 跑馬燈容器 */}
-      <div
-        className="relative w-full h-48 sm:h-64 md:h-[28rem] overflow-hidden"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <div
-          className="flex items-center h-full"
-          style={{
-            transform: `translateX(${scrollPosition}px)`,
-            width: `${duplicatedItems.length * 192}px`, // 每張圖片寬度 (w-48 = 192px)
-          }}
-        >
-          {duplicatedItems.map((item, index) => (
-            <div
-              key={`${item.id}-${index}`}
-              className="flex-shrink-0 w-48 sm:w-64 md:w-[28rem] h-48 sm:h-64 md:h-[28rem] cursor-pointer"
-              onClick={() => handleItemClick(item)}
-            >
-              <div className="relative w-full h-full overflow-hidden shadow-lg group hover:shadow-2xl transition-shadow duration-300">
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  priority={index < 8} // 只對前8張圖片設置優先載入
-                />
-              </div>
-            </div>
-          ))}
+      {loading ? (
+        <div className="relative w-full h-48 sm:h-64 md:h-[28rem] overflow-hidden flex items-center justify-center">
+          <LoadingSpinner size="lg" text="載入精選眼鏡系列..." />
         </div>
-      </div>
+      ) : (
+        <div
+          className="relative w-full h-48 sm:h-64 md:h-[28rem] overflow-hidden"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <div
+            className="flex items-center h-full"
+            style={{
+              transform: `translateX(${scrollPosition}px)`,
+              width: `${duplicatedItems.length * 192}px`, // 每張圖片寬度 (w-48 = 192px)
+            }}
+          >
+            {duplicatedItems.map((item, index) => (
+              <div
+                key={`${item.id}-${index}`}
+                className="flex-shrink-0 w-48 sm:w-64 md:w-[28rem] h-48 sm:h-64 md:h-[28rem] cursor-pointer"
+                onClick={() => handleItemClick(item)}
+              >
+                <div className="relative w-full h-full overflow-hidden shadow-lg group hover:shadow-2xl transition-shadow duration-300">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    priority={index < 8} // 只對前8張圖片設置優先載入
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
