@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import EyeglassCard from "./EyeglassCard";
 import { usePhotosByCategory } from "@/hooks/usePhotoManagement";
 import { PhotoCategory } from "@/lib/photoManagement";
@@ -160,8 +161,12 @@ export default function EyeglassCardGrid() {
         })
       : defaultBrands;
 
-  // 調整品牌數量為3的倍數，讓每行顯示整齊（向下調整）
-  const adjustToMultipleOfThree = (brands: typeof allBrands) => {
+  // 調整品牌數量為3的倍數，讓每行顯示整齊（僅在手機頁面時）
+  const adjustToMultipleOfThree = (brands: typeof allBrands, isMobile: boolean) => {
+    if (!isMobile) {
+      return brands; // 桌面版顯示所有品牌
+    }
+    
     const remainder = brands.length % 3;
     if (remainder === 0) {
       return brands; // 已經是3的倍數
@@ -172,7 +177,21 @@ export default function EyeglassCardGrid() {
     }
   };
 
-  const eyeglassBrands = adjustToMultipleOfThree(allBrands);
+  // 使用 React Hook 來檢測螢幕尺寸
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint
+    };
+    
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
+
+  const eyeglassBrands = adjustToMultipleOfThree(allBrands, isMobile);
 
   return (
     <section className="w-full py-12 md:py-16 px-4 bg-[rgb(231,229,218)]">
