@@ -10,9 +10,7 @@ export default function PrivacyPolicy() {
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center">
             隱私權政策
           </h1>
-          <p className="text-center text-gray-300 mt-4">
-            Privacy Policy
-          </p>
+          <p className="text-center text-gray-300 mt-4">Privacy Policy</p>
         </div>
       </div>
 
@@ -21,7 +19,7 @@ export default function PrivacyPolicy() {
         <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8 md:p-12">
           <div className="prose prose-lg max-w-none">
             <p className="text-gray-600 mb-8">
-              最後更新日期：{new Date().toLocaleDateString('zh-TW')}
+              最後更新日期：{new Date().toLocaleDateString("zh-TW")}
             </p>
 
             <section className="mb-8">
@@ -32,9 +30,16 @@ export default function PrivacyPolicy() {
                 視寶眼鏡（以下簡稱「我們」）致力於保護您的隱私權。本隱私權政策說明我們如何收集、使用、儲存和保護您的個人資料。
               </p>
               <ul className="list-disc pl-6 text-gray-700 space-y-2">
-                <li>當您瀏覽我們的網站時，我們可能會收集您的 IP 地址、瀏覽器類型、作業系統等技術資訊</li>
-                <li>當您聯繫我們或使用我們的服務時，我們會收集您提供的個人資訊，如姓名、電話號碼、電子郵件地址</li>
-                <li>我們使用這些資訊來提供更好的服務、回應您的詢問，以及改善我們的網站功能</li>
+                <li>
+                  當您瀏覽我們的網站時，我們可能會收集您的 IP
+                  地址、瀏覽器類型、作業系統等技術資訊
+                </li>
+                <li>
+                  當您聯繫我們或使用我們的服務時，我們會收集您提供的個人資訊，如姓名、電話號碼、電子郵件地址
+                </li>
+                <li>
+                  我們使用這些資訊來提供更好的服務、回應您的詢問，以及改善我們的網站功能
+                </li>
               </ul>
             </section>
 
@@ -130,9 +135,7 @@ export default function PrivacyPolicy() {
                 <p className="text-gray-700 mb-2">
                   <strong>視寶眼鏡</strong>
                 </p>
-                <p className="text-gray-700 mb-2">
-                  電話：06-6331141
-                </p>
+                <p className="text-gray-700 mb-2">電話：06-6331141</p>
                 <p className="text-gray-700 mb-2">
                   地址：台南市新營區三民路121之6號
                 </p>

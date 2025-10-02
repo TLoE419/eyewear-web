@@ -10,9 +10,7 @@ export default function TermsOfService() {
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center">
             使用條款
           </h1>
-          <p className="text-center text-gray-300 mt-4">
-            Terms of Service
-          </p>
+          <p className="text-center text-gray-300 mt-4">Terms of Service</p>
         </div>
       </div>
 
@@ -21,7 +19,7 @@ export default function TermsOfService() {
         <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8 md:p-12">
           <div className="prose prose-lg max-w-none">
             <p className="text-gray-600 mb-8">
-              最後更新日期：{new Date().toLocaleDateString('zh-TW')}
+              最後更新日期：{new Date().toLocaleDateString("zh-TW")}
             </p>
 
             <section className="mb-8">
@@ -76,7 +74,9 @@ export default function TermsOfService() {
                 關於本網站展示的產品和服務：
               </p>
               <ul className="list-disc pl-6 text-gray-700 space-y-2">
-                <li>產品圖片僅供參考，實際產品可能因批次或製造差異而有所不同</li>
+                <li>
+                  產品圖片僅供參考，實際產品可能因批次或製造差異而有所不同
+                </li>
                 <li>產品價格如有變動，以實際店面價格為準</li>
                 <li>我們保留隨時修改或停止提供任何產品或服務的權利</li>
                 <li>所有產品均享有相關保固服務，詳情請洽詢店面</li>
@@ -106,7 +106,10 @@ export default function TermsOfService() {
               </h2>
               <p className="text-gray-700 leading-relaxed">
                 我們重視您的隱私權，有關個人資料的收集、使用和保護，請參閱我們的
-                <a href="/privacy" className="text-[rgb(136,99,64)] hover:underline">
+                <a
+                  href="/privacy"
+                  className="text-[rgb(136,99,64)] hover:underline"
+                >
                   隱私權政策
                 </a>
                 。使用本網站即表示您同意該政策。
@@ -153,18 +156,14 @@ export default function TermsOfService() {
                 <p className="text-gray-700 mb-2">
                   <strong>視寶眼鏡</strong>
                 </p>
-                <p className="text-gray-700 mb-2">
-                  電話：06-6331141
-                </p>
+                <p className="text-gray-700 mb-2">電話：06-6331141</p>
                 <p className="text-gray-700 mb-2">
                   地址：台南市新營區三民路121之6號
                 </p>
                 <p className="text-gray-700 mb-2">
                   營業時間：週一至週日 10:00-22:00
                 </p>
-                <p className="text-gray-700">
-                  LINE：@ksn7157i
-                </p>
+                <p className="text-gray-700">LINE：@ksn7157i</p>
               </div>
             </section>
 
