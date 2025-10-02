@@ -1,0 +1,14 @@
+# Cloudflare Pages 配置 - 動態 Next.js 應用程式
+name = "eyewear-web"
+compatibility_date = "2023-09-28"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".next"
+
+# 使用 secrets 來安全地存儲敏感資訊
+# 執行以下命令來設定 secrets:
+# npx wrangler pages secret put SUPABASE_URL
+# npx wrangler pages secret put SUPABASE_ANON_KEY
+
+# 環境變數
+[vars]
+NODE_ENV = "production"

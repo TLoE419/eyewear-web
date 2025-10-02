@@ -2,13 +2,78 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useLenses, Lens } from "@/hooks/useSupabaseData";
+
+// 定義 Lens 介面，避免依賴 Supabase
+interface Lens {
+  id: string;
+  name: string;
+  brand: string;
+  image: string;
+  shortDescription: string;
+  longDescription: string;
+}
+
+// 硬編碼的鏡片資料
+const hardcodedLenses: Lens[] = [
+  {
+    id: "lens-1",
+    name: "ZEISS",
+    brand: "ZEISS",
+    image: "/lens-logos/Zeiss.jpg",
+    shortDescription:
+      "德國 ZEISS 蔡司創立於 1846 年，是全球光學領域領導品牌，鏡片以精準度、舒適度與耐用性著稱...",
+    longDescription:
+      "德國 ZEISS 蔡司創立於 1846 年，是全球光學領域領導品牌，鏡片以精準度、舒適度與耐用性著稱。結合先進鍍膜、防紫外線、防藍光與個人化設計，提供清晰穩定的視覺體驗。從日常閱讀、3C 使用到駕駛，蔡司鏡片皆能滿足不同需求，守護雙眼每一刻。",
+  },
+  {
+    id: "lens-2",
+    name: "依視路",
+    brand: "依視路",
+    image: "/lens-logos/Essilor.jpg",
+    shortDescription:
+      "法國依視路（Essilor）創立於 1849 年，是全球最大眼鏡鏡片製造商之一，以創新光學科技聞名...",
+    longDescription:
+      "法國依視路（Essilor）創立於 1849 年，是全球最大眼鏡鏡片製造商之一，以創新光學科技聞名。依視路鏡片涵蓋單光、漸進多焦點、防藍光、防紫外線與變色等多元選擇，並透過精準度數與個人化設計，提供清晰、舒適、自然的視覺體驗。無論閱讀、戶外或數位生活，依視路都致力守護你的雙眼健康。",
+  },
+  {
+    id: "lens-3",
+    name: "HOYA",
+    brand: "HOYA",
+    image: "/lens-logos/HOYA.jpg",
+    shortDescription:
+      "日本 HOYA 創立於 1941 年，為全球光學與醫療科技領導品牌之一...",
+    longDescription:
+      "日本 HOYA 創立於 1941 年，為全球光學與醫療科技領導品牌之一。HOYA 鏡片以輕薄、高透光與精密加工聞名，並具備防紫外線、防藍光與高耐刮等鍍膜技術。從日常用眼、長時間 3C 使用到專業需求，HOYA 提供多樣化鏡片方案，為雙眼帶來清晰舒適的視覺享受。",
+  },
+  {
+    id: "lens-4",
+    name: "TOKAI",
+    brand: "TOKAI",
+    image: "/lens-logos/Tokai.jpg",
+    shortDescription:
+      "日本東海光學（TOKAI）創立於 1939 年，以高端訂製鏡片聞名，是日本光學技術的代表之一...",
+    longDescription:
+      "日本東海光學（TOKAI）創立於 1939 年，以高端訂製鏡片聞名，是日本光學技術的代表之一。TOKAI 鏡片以超輕薄、高透光與精密加工著稱，並擁有防藍光、全時 UV 防護、變色與多層耐刮鍍膜等技術。其多樣化產品可依度數、臉型與生活需求量身訂製，為配戴者帶來清晰、舒適且優雅的視覺體驗。",
+  },
+  {
+    id: "lens-5",
+    name: "Nikon",
+    brand: "Nikon",
+    image: "/lens-logos/Nikon.jpg",
+    shortDescription:
+      "日本 NIKON 依視路創立於 1917 年，源自精密光學與相機鏡頭技術，將頂級光學工藝延伸至眼鏡鏡片領域...",
+    longDescription:
+      "日本 NIKON 依視路創立於 1917 年，源自精密光學與相機鏡頭技術，將頂級光學工藝延伸至眼鏡鏡片領域。NIKON 鏡片以高解析度、色彩真實與輕薄舒適著稱，結合防藍光、全時 UV 防護、抗反光與耐刮鍍膜等技術，提供清晰穩定的視覺體驗。無論日常佩戴或專業需求，NIKON 都以精準光學守護你的雙眼。",
+  },
+];
 
 export default function LensesPage() {
   const [selectedLens, setSelectedLens] = useState<Lens | null>(null);
-  const { lenses, loading, error } = useLenses();
 
-  const cards = lenses ?? [];
+  // 使用硬編碼資料，移除 Supabase 依賴
+  const lenses = hardcodedLenses;
+
+  const cards = lenses;
   const headCount = Math.max(0, cards.length - 2);
   const head = cards.slice(0, headCount);
   const tail = cards.slice(headCount); // 0/1/2 張
@@ -19,9 +84,16 @@ export default function LensesPage() {
     setTimeout(() => {
       const detailSection = document.getElementById("lens-detail-section");
       if (detailSection) {
-        detailSection.scrollIntoView({
+        // 獲取元素位置
+        const elementTop = detailSection.offsetTop;
+        // 計算偏移量：手機端需要考慮固定導航欄高度
+        const isMobile = window.innerWidth < 768; // md breakpoint
+        const offset = isMobile ? 80 : 20; // 手機端80px，桌面端20px
+        const scrollPosition = elementTop - offset;
+
+        window.scrollTo({
+          top: scrollPosition,
           behavior: "smooth",
-          block: "start",
         });
       }
     }, 100); // 稍微延遲確保狀態更新完成
@@ -30,64 +102,19 @@ export default function LensesPage() {
   // 獲取品牌 logo 圖片路徑
   const getBrandLogo = (brand: string) => {
     const logoMap: { [key: string]: string } = {
-      Essilor: "/Lense Logo/Essilor.jpg",
-      依視路: "/Lense Logo/Essilor.jpg", // 依視路是 Essilor 的中文名
-      HOYA: "/Lense Logo/HOYA.jpg",
-      Nikon: "/Lense Logo/Nikon.jpg",
-      TOKAI: "/Lense Logo/Tokai.jpg",
-      Tokai: "/Lense Logo/Tokai.jpg",
-      Zeiss: "/Lense Logo/Zeiss.jpg",
-      ZEISS: "/Lense Logo/Zeiss.jpg", // 處理大寫版本
+      Essilor: "/lens-logos/Essilor.jpg",
+      依視路: "/lens-logos/Essilor.jpg", // 依視路是 Essilor 的中文名
+      HOYA: "/lens-logos/HOYA.jpg",
+      Nikon: "/lens-logos/Nikon.jpg",
+      TOKAI: "/lens-logos/Tokai.jpg",
+      Tokai: "/lens-logos/Tokai.jpg",
+      Zeiss: "/lens-logos/Zeiss.jpg",
+      ZEISS: "/lens-logos/Zeiss.jpg", // 處理大寫版本
     };
     return logoMap[brand] || null;
   };
 
-  // 載入狀態
-  if (loading) {
-    return (
-      <div
-        className="min-h-screen pt-16 md:pt-28"
-        style={{ backgroundColor: "rgb(231, 229, 218)" }}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center py-12">
-            <div className="animate-pulse">
-              <div className="h-8 bg-gray-200 rounded mb-4 max-w-md mx-auto"></div>
-              <div className="h-4 bg-gray-200 rounded mb-8 max-w-lg mx-auto"></div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                {[...Array(3)].map((_, i) => (
-                  <div key={i} className="bg-gray-200 rounded-xl h-64"></div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // 錯誤狀態
-  if (error) {
-    return (
-      <div
-        className="min-h-screen pt-16 md:pt-28"
-        style={{ backgroundColor: "rgb(231, 229, 218)" }}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center py-12">
-            <p className="text-red-500 text-lg mb-4">載入鏡片資料時發生錯誤</p>
-            <p className="text-gray-500 text-sm mb-4">{error}</p>
-            <button
-              onClick={() => window.location.reload()}
-              className="bg-[rgb(136,99,64)] text-white px-6 py-2 rounded-lg hover:bg-[rgb(115,65,29)] transition-colors"
-            >
-              重新載入
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // 移除載入和錯誤狀態，因為使用硬編碼資料
 
   const Card = ({ lens }: { lens: Lens }) => (
     <div

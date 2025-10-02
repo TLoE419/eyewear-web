@@ -2,8 +2,18 @@
 
 import Image from "next/image";
 import React from "react";
-import { useProduct } from "@/hooks/useSupabaseData";
 import Link from "next/link";
+// 移除靜態資料導入，改用 API
+
+interface Product {
+  id: string;
+  name: string;
+  brand: string;
+  category: string;
+  image: string;
+  description: string;
+  inStock: boolean;
+}
 
 interface ProductDetailClientProps {
   productId: string;
@@ -12,7 +22,38 @@ interface ProductDetailClientProps {
 export default function ProductDetailClient({
   productId,
 }: ProductDetailClientProps) {
-  const { product, loading, error } = useProduct(productId);
+  const [product, setProduct] = React.useState<Product | null>(null);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`/api/products/${productId}`);
+
+        if (!response.ok) {
+          if (response.status === 404) {
+            setError("產品不存在");
+          } else {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return;
+        }
+
+        const data = await response.json();
+        setProduct(data);
+        setError(null);
+      } catch (err) {
+        console.error("載入產品資料失敗:", err);
+        setError("載入產品資料失敗");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [productId]);
 
   if (loading) {
     return (

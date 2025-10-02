@@ -1,0 +1,9 @@
+{
+  "name": "eyewear-photo-worker",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker for Eyewear Photo API",
+  "main": "cloudflare-worker.js",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.4"
+  }
+}

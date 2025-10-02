@@ -102,7 +102,7 @@ export default function News() {
       if (!isHovered) {
         setScrollPosition((prev) => {
           const newPosition = prev - 0.5; // 緩慢向左移動
-          const maxScroll = carouselItems.length * 384; // 每張圖片寬度 (w-96 = 384px)
+          const maxScroll = carouselItems.length * 192; // 每張圖片寬度 (w-48 = 192px)
           return newPosition <= -maxScroll ? 0 : newPosition;
         });
       }
@@ -140,7 +140,7 @@ export default function News() {
 
       {/* 跑馬燈容器 */}
       <div
-        className="relative w-full h-96 md:h-[28rem] overflow-hidden"
+        className="relative w-full h-48 sm:h-64 md:h-[28rem] overflow-hidden"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -148,13 +148,13 @@ export default function News() {
           className="flex items-center h-full"
           style={{
             transform: `translateX(${scrollPosition}px)`,
-            width: `${duplicatedItems.length * 384}px`, // 每張圖片寬度 (w-96 = 384px)
+            width: `${duplicatedItems.length * 192}px`, // 每張圖片寬度 (w-48 = 192px)
           }}
         >
           {duplicatedItems.map((item, index) => (
             <div
               key={`${item.id}-${index}`}
-              className="flex-shrink-0 w-96 md:w-[28rem] h-96 md:h-[28rem] cursor-pointer"
+              className="flex-shrink-0 w-48 sm:w-64 md:w-[28rem] h-48 sm:h-64 md:h-[28rem] cursor-pointer"
               onClick={() => handleItemClick(item)}
             >
               <div className="relative w-full h-full overflow-hidden shadow-lg group hover:shadow-2xl transition-shadow duration-300">

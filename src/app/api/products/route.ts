@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
 export const runtime = "edge";
@@ -13,22 +13,8 @@ if (supabaseUrl && supabaseAnonKey) {
   supabase = createClient(supabaseUrl, supabaseAnonKey);
 }
 
-// 照片類別對應
-const PHOTO_CATEGORIES = {
-  hero: "hero",
-  image_slider: "image_slider",
-  brand_logo: "brand_logo",
-  store_photo: "store_photo",
-  news_carousel: "news_carousel",
-} as const;
-
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ category: string }> }
-) {
+export async function GET() {
   try {
-    const { category } = await params;
-
     // 檢查 Supabase 環境變數
     if (!supabase) {
       console.log("Supabase 環境變數未設置，返回空陣列");
@@ -41,28 +27,31 @@ export async function GET(
       });
     }
 
-    // 驗證類別
-    if (!PHOTO_CATEGORIES[category as keyof typeof PHOTO_CATEGORIES]) {
-      return NextResponse.json({ error: "Invalid category" }, { status: 400 });
-    }
-
-    // 從 Supabase 根據類別獲取照片
-    const { data, error } = await supabase
-      .from("photos")
+    // 從 Supabase 獲取所有產品
+    const { data: products, error } = await supabase
+      .from("products")
       .select("*")
-      .eq(
-        "category",
-        PHOTO_CATEGORIES[category as keyof typeof PHOTO_CATEGORIES]
-      )
-      .eq("is_active", true)
-      .order("display_order", { ascending: true });
+      .order("id");
 
     if (error) {
       console.error("Supabase error:", error);
       return NextResponse.json({ error: "Database error" }, { status: 500 });
     }
 
-    return NextResponse.json(data || [], {
+    // 轉換資料格式以符合前端期望的結構
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    const formattedProducts = (products || []).map((product: any) => ({
+      id: product.id,
+      name: product.name,
+      brand: product.brand,
+      image: product.image_url,
+      description: product.description,
+      category: "鏡框", // 預設分類
+      inStock: true, // 預設有庫存
+    }));
+    /* eslint-enable @typescript-eslint/no-explicit-any */
+
+    return NextResponse.json(formattedProducts, {
       status: 200,
       headers: {
         "Content-Type": "application/json",

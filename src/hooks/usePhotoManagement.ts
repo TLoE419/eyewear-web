@@ -3,15 +3,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { Photo, PhotoCategory, PhotoUpload } from "@/lib/photoManagement";
 
-// API 基礎 URL - 使用本地代理 API
+// API 基礎 URL - 使用本地 API 路由
 const API_BASE_URL = "";
 
 // 調試信息
-console.log("API_BASE_URL:", API_BASE_URL);
-console.log(
-  "NEXT_PUBLIC_ADMIN_API_URL:",
-  process.env.NEXT_PUBLIC_ADMIN_API_URL
-);
+console.log("使用本地 API 路由");
 
 // API 端點
 const PHOTO_API_ENDPOINTS = {
@@ -66,18 +62,7 @@ export const usePhotosByCategory = (category: PhotoCategory) => {
       setLoading(true);
       setError(null);
 
-      // 啟用 API 調用以獲取資料庫的最新資料
-      const enableAPI = true;
-
-      if (!enableAPI) {
-        // 如果禁用 API，直接使用預設資料
-        setTimeout(() => {
-          setPhotos(getDefaultPhotos(category));
-          setLoading(false);
-          setError(null);
-        }, 100);
-        return;
-      }
+      // 現在使用本地 API，總是嘗試調用
 
       try {
         const url = `${PHOTO_API_ENDPOINTS.GET_PHOTOS_BY_CATEGORY}/${category}`;
@@ -112,7 +97,9 @@ export const usePhotosByCategory = (category: PhotoCategory) => {
       }
     };
 
-    fetchPhotos();
+    // 延遲執行，確保在客戶端運行
+    const timer = setTimeout(fetchPhotos, 100);
+    return () => clearTimeout(timer);
   }, [category]);
 
   const refetch = useCallback(async () => {

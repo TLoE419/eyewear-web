@@ -128,9 +128,6 @@ const PhotoGrid = () => {
               ? "translate-x-0"
               : "-translate-x-full group-hover:translate-x-0"
           }`}
-          style={{
-            pointerEvents: isScrolledTo ? "none" : "auto",
-          }}
         >
           <p className="text-[rgb(227,208,165)] text-base md:text-2xl font-normal mb-1">
             分店資訊
@@ -172,9 +169,6 @@ const PhotoGrid = () => {
               ? "translate-x-0"
               : "translate-x-full group-hover:translate-x-0"
           }`}
-          style={{
-            pointerEvents: isScrolledTo ? "none" : "auto",
-          }}
         >
           <p className="text-[rgb(227,208,165)] text-base md:text-2xl font-normal mb-1">
             分店資訊

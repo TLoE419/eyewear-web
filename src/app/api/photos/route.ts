@@ -1,46 +1,55 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
 
-// 代理 API - 將請求轉發到 eyewear-admin
-export async function GET(request: NextRequest) {
+export const runtime = "edge";
+
+// Supabase 配置
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+
+// 只有在有環境變數時才創建 Supabase 客戶端
+let supabase: ReturnType<typeof createClient> | null = null;
+if (supabaseUrl && supabaseAnonKey) {
+  supabase = createClient(supabaseUrl, supabaseAnonKey);
+}
+
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url);
-
-    // 從環境變數獲取 admin API 基礎 URL，如果沒有則使用預設值
-    const adminBaseUrl =
-      process.env.ADMIN_API_BASE_URL || "http://localhost:3000";
-
-    // 構建轉發 URL
-    const adminUrl = `${adminBaseUrl}/api/photos${
-      searchParams ? `?${searchParams}` : ""
-    }`;
-
-    console.log(`Proxying GET request to: ${adminUrl}`);
-
-    // 轉發請求到 eyewear-admin
-    const response = await fetch(adminUrl, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Admin API responded with status: ${response.status}`);
+    // 檢查 Supabase 環境變數
+    if (!supabase) {
+      console.log("Supabase 環境變數未設置，返回空陣列");
+      return NextResponse.json([], {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": "no-cache",
+        },
+      });
     }
 
-    const data = await response.json();
+    // 從 Supabase 獲取所有照片
+    const { data, error } = await supabase
+      .from("photos")
+      .select("*")
+      .eq("is_active", true)
+      .order("display_order", { ascending: true });
 
-    return NextResponse.json(data, {
+    if (error) {
+      console.error("Supabase error:", error);
+      return NextResponse.json({ error: "Database error" }, { status: 500 });
+    }
+
+    return NextResponse.json(data || [], {
+      status: 200,
       headers: {
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-        Pragma: "no-cache",
-        Expires: "0",
+        "Content-Type": "application/json",
+        "Cache-Control": "no-cache",
       },
     });
-  } catch (error) {
-    console.error("Proxy API error:", error);
+  } catch (err) {
+    console.error("API error:", err);
     return NextResponse.json(
-      { error: "Failed to fetch photos" },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }

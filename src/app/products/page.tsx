@@ -6,9 +6,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Filter, X, Search, Heart } from "lucide-react";
-import { useProducts, Product } from "@/hooks/useSupabaseData";
+// 移除靜態資料導入，改用 API
 
-// Product type is now imported from useSupabaseData
+// 定義 Product 介面
+interface Product {
+  id: string;
+  name: string;
+  brand: string;
+  category: string;
+  image: string;
+  description: string;
+  inStock: boolean;
+}
 
 const brandCategories = [
   "Ray-Ban",
@@ -41,7 +50,33 @@ function ProductsPageContent() {
   const searchParams = useSearchParams();
 
   const { addToCart, isMounted } = useCart();
-  const { products, loading, error } = useProducts();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch("/api/products");
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setProducts(data);
+        setError(null);
+      } catch (err) {
+        console.error("載入產品資料失敗:", err);
+        setError("載入產品資料失敗");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     // 檢查 URL 參數中是否有品牌過濾

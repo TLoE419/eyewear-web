@@ -60,12 +60,12 @@ const baseBrandLogos = [
     brandName: "DonniEYE",
   },
   {
-    image: "/Logo/Frank Custom.jpg",
+    image: "/Logo/FrankCustom.jpg",
     href: "/products?brand=FrankCustom",
     brandName: "Frank Custom",
   },
   {
-    image: "/Logo/Giorgio Armani.jpg",
+    image: "/Logo/GiorgioArmani.jpg",
     href: "/products?brand=GiorgioArmani",
     brandName: "Giorgio Armani",
   },
@@ -75,7 +75,7 @@ const baseBrandLogos = [
     brandName: "P+US",
   },
   {
-    image: "/Logo/Salvatore Ferragamo.jpg",
+    image: "/Logo/SalvatoreFerragamo.jpg",
     href: "/products?brand=SalvatoreFerragamo",
     brandName: "Salvatore Ferragamo",
   },
@@ -115,15 +115,64 @@ export default function EyeglassCardGrid() {
     (_, index) => baseBrandLogos[index % baseBrandLogos.length]
   );
 
+  // 品牌名稱映射（將 API 返回的小寫名稱映射到正確的格式）
+  const brandNameMapping: Record<string, { name: string; href: string }> = {
+    rayban: { name: "Ray-Ban", href: "Ray-Ban" },
+    lindberg: { name: "LINDBERG", href: "LINDBERG" },
+    "9999": { name: "9999", href: "9999" },
+    bvlgari: { name: "BVLGARI", href: "BVLGARI" },
+    gucci: { name: "GUCCI", href: "GUCCI" },
+    montblanc: { name: "MONTBLANC", href: "MONTBLANC" },
+    agnesb: { name: "Agnès B", href: "AgnesB" },
+    brooklyn: { name: "Brooklyn", href: "Brooklyn" },
+    chloe: { name: "Chloé", href: "Chloe" },
+    coach: { name: "Coach", href: "Coach" },
+    donnieye: { name: "DonniEYE", href: "DonniEYE" },
+    "frank custom": { name: "Frank Custom", href: "FrankCustom" },
+    "giorgio armani": { name: "Giorgio Armani", href: "GiorgioArmani" },
+    "p+us": { name: "P+US", href: "PUS" },
+    "salvatore ferragamo": {
+      name: "Salvatore Ferragamo",
+      href: "SalvatoreFerragamo",
+    },
+    silhouette: { name: "Silhouette", href: "Silhouette" },
+    classico: { name: "Classico", href: "Classico" },
+    projekt_produkt: { name: "Projekt Produkt", href: "ProjektProdukt" },
+    talor_with_respect: {
+      name: "Talor with Respect",
+      href: "TalorWithRespect",
+    },
+    ysl: { name: "YSL", href: "YSL" },
+  };
+
   // 如果沒有照片，使用預設照片
-  const eyeglassBrands =
+  const allBrands =
     brandPhotos.length > 0
-      ? brandPhotos.map((photo) => ({
-          image: photo.image_url,
-          href: `/products?brand=${photo.文字欄1}`,
-          brandName: photo.文字欄1 || "品牌",
-        }))
+      ? brandPhotos.map((photo) => {
+          const apiTitle = photo.title?.toLowerCase() || "";
+          const mapping = brandNameMapping[apiTitle];
+
+          return {
+            image: photo.image_url,
+            href: `/products?brand=${mapping?.href || photo.title}`,
+            brandName: mapping?.name || photo.title || "品牌",
+          };
+        })
       : defaultBrands;
+
+  // 調整品牌數量為3的倍數，讓每行顯示整齊（向下調整）
+  const adjustToMultipleOfThree = (brands: typeof allBrands) => {
+    const remainder = brands.length % 3;
+    if (remainder === 0) {
+      return brands; // 已經是3的倍數
+    } else {
+      // 向下調整到3的倍數，移除多餘的品牌
+      const targetLength = brands.length - remainder;
+      return brands.slice(0, targetLength);
+    }
+  };
+
+  const eyeglassBrands = adjustToMultipleOfThree(allBrands);
 
   return (
     <section className="w-full py-12 md:py-16 px-4 bg-[rgb(231,229,218)]">
