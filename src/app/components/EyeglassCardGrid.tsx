@@ -109,7 +109,9 @@ const baseBrandLogos = [
 ];
 
 export default function EyeglassCardGrid() {
-  const { photos: brandPhotos, loading } = usePhotosByCategory(PhotoCategory.BRAND_LOGO);
+  const { photos: brandPhotos, loading } = usePhotosByCategory(
+    PhotoCategory.BRAND_LOGO
+  );
 
   // 預設品牌陣列（避免每次渲染重新創建）
   const defaultBrands = Array.from(
