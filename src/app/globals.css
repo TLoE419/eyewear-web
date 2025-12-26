@@ -54,7 +54,16 @@
 
   .adjust-jing {
     position: relative;
-    top: 0.1em;
+    top: 0.2em;
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+    color: inherit;
+  }
+
+  .adjust-jing-char {
+    position: relative;
+    top: 0.15em;
     font-family: inherit;
     font-weight: inherit;
     font-size: inherit;
