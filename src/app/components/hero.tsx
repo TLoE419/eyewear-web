@@ -89,13 +89,14 @@ export default function Hero() {
           fontFamily: '"MyCalligraphy", sans-serif',
         }}
       >
-        <div className="flex items-center justify-center w-full h-full">
+        <div className="flex items-center justify-center w-full h-full gap-4 sm:gap-6 md:gap-8">
           <h1
-            className="font-bold"
             style={{
               color: "rgb(38, 38, 38)",
               fontFamily: '"MyCalligraphy", sans-serif',
-              lineHeight: "1.5",
+              fontWeight: "normal",
+              lineHeight: "1.6",
+              letterSpacing: "0.05em",
               fontSize: "clamp(3rem, 8vw, 6rem)",
               textShadow:
                 "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.6), 0 0 30px rgba(255,255,255,0.4)",
@@ -103,8 +104,22 @@ export default function Hero() {
               textOrientation: "upright",
             }}
           >
-            　親久炫目睛
-            <br />
+            親久炫目睛
+          </h1>
+          <h1
+            style={{
+              color: "rgb(38, 38, 38)",
+              fontFamily: '"MyCalligraphy", sans-serif',
+              fontWeight: "normal",
+              lineHeight: "1.6",
+              letterSpacing: "0.05em",
+              fontSize: "clamp(3rem, 8vw, 6rem)",
+              textShadow:
+                "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.6), 0 0 30px rgba(255,255,255,0.4)",
+              writingMode: "vertical-rl",
+              textOrientation: "upright",
+            }}
+          >
             寶鏡如明月
           </h1>
         </div>
