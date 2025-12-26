@@ -20,6 +20,14 @@
   letter-spacing: 0.1em;
 }
 
+/* 确保 span 元素继承字体样式 */
+.hero-text span {
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
 @media (max-width: 768px) {
   .hero-text {
     letter-spacing: 0.3em;
@@ -29,16 +37,28 @@
   .adjust-jiu {
     position: relative;
     top: -0.1em;
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+    color: inherit;
   }
 
   .adjust-mu {
     position: relative;
     top: -0.1em;
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+    color: inherit;
   }
 
   .adjust-jing {
     position: relative;
     top: 0.1em;
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+    color: inherit;
   }
 }
 
