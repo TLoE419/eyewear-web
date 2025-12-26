@@ -91,7 +91,7 @@ export default function Hero() {
       >
         <div className="flex items-center justify-center w-full h-full">
           <h1
-            className="font-bold"
+            className="font-bold hero-text"
             style={{
               color: "rgb(38, 38, 38)",
               fontFamily: '"MyCalligraphy", sans-serif',
@@ -101,7 +101,6 @@ export default function Hero() {
                 "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.6), 0 0 30px rgba(255,255,255,0.4)",
               writingMode: "vertical-rl",
               textOrientation: "upright",
-              WebkitTextStroke: "1px rgba(255, 0, 0, 0.5)",
             }}
           >
             　親久炫目睛
