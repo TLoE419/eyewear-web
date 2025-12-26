@@ -6,7 +6,8 @@
        url('/fonts/Calligraphr-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
+  unicode-range: U+4E00-9FFF, U+3000-303F;
 }
 
 /* 測試字體是否加載 */
