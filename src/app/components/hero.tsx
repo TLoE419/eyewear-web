@@ -103,9 +103,9 @@ export default function Hero() {
               textOrientation: "upright",
             }}
           >
-            　親久炫目睛
+            　親<span className="adjust-jiu">久</span>炫<span className="adjust-mu">目</span>睛
             <br />
-            寶鏡如明月
+            寶<span className="adjust-jing">鏡</span>如明月
           </h1>
         </div>
       </div>
